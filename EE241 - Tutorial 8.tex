@@ -1,0 +1,265 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#8}
+\date{Friday, March 13, 2015}
+\maketitle
+
+\begin{prob}
+If $\vec{u}$ and $\vec{v}$ are related by angle $\theta$, what is the angle between $\vec{u} / | \vec{u} |$ and $\vec{v} / |\vec{v}|$? What is the angle between $\vec{u} / |\vec{u}|$ and $\vec{v}$?
+\end{prob} \ifsolns \begin{proof}
+The angle between $\vec{u} / | \vec{u} |$ and $\vec{v} / |\vec{v}|$ is given by
+\[
+  \frac{\displaystyle\frac{\vec{u}}{|\vec{u}|} \cdot \displaystyle\frac{\vec{v}}{|\vec{v}|}}
+  {\left| \displaystyle\frac{\vec{u}}{|\vec{u}|} \right| \left|\displaystyle\frac{\vec{v}}{|\vec{v}|} \right|}
+  = 
+  \frac{\vec{u}}{|\vec{u}|} \cdot \frac{\vec{v}}{|\vec{v}|}
+  \lp \frac{|\vec{u}|}{|\vec{u}|} \frac{|\vec{v}|}{|\vec{v}|} \rp^{-1}
+  =
+  \frac{\vec{u}}{|\vec{u}|} \cdot \frac{\vec{v}}{|\vec{v}|}
+  = \cos \theta .
+\]
+The angle between $\vec{u} / |\vec{u}|$ and $\vec{v}$ is given by
+\[
+  \frac{\displaystyle\frac{\vec{u}}{|\vec{u}|} \cdot \vec{v}}
+  {\left| \displaystyle\frac{\vec{u}}{|\vec{u}|} \right| \left| \vec{v} \right|}
+  = 
+  \frac{\vec{u}}{|\vec{u}|} \cdot \frac{\vec{v}}{|\vec{v}|}
+  \lp \frac{|\vec{u}|}{|\vec{u}|} \rp^{-1}
+  =
+  \frac{\vec{u}}{|\vec{u}|} \cdot \frac{\vec{v}}{|\vec{v}|}
+  = \cos \theta .
+\]
+Thus, normalizing either vector does not change the angles between them.
+\end{proof}\else \vspace{3in} \fi
+
+
+
+\begin{prob}
+Find the set of all $3$-dimensional vectors that are $30^{\circ}$ away from $\vec{u} = \ls 1, 0, 1 \rs^T$ and orthogonal to $\vec{v} = \ls -3, 1, 0 \rs^T$. \textbf{Hint:} Start by finding the set of all length-$1$ vectors (unit vectors) that satisfy these conditions.
+\end{prob} \ifsolns \begin{proof}
+Let $\vec{s} = \ls a, b, c \rs^T$ be any length-$1$ vector. Now apply the first condition
+\[
+  \frac{\vec{u} \cdot \overrightarrow{s}}{| \vec{u} | | \overrightarrow{s} |} = \frac{a+c}{\sqrt{2}}
+\]
+Note that $\cos \lp 30^{\circ} \rp = \sqrt{3}/2$, thus
+\[
+  a+c = \sqrt{3/2}.
+\]
+The second condition is that
+\[
+  \vec{v} \cdot \overrightarrow{s} = 0
+  \hspace{0.25in} \Longrightarrow \hspace{0.25in}
+  -3a + b = 0 .
+\]
+Altogether
+\[
+  \ls \begin{array}{rrr}
+     1 &  0 &  1 \\
+    -3 &  1 &  0
+  \end{array} \rs
+  \ls \begin{array}{c} a \\ b \\ c \end{array} \rs
+   = \ls \begin{array}{r} \sqrt{3/2} \\ 0 \end{array} \rs
+   \hspace{0.25in} \Longrightarrow \hspace{0.25in}
+   \ls \begin{array}{rrr}
+    1 &  0 &  1 \\
+    0 &  1 &  3
+  \end{array} \rs
+  \ls \begin{array}{c} a \\ b \\ c \end{array} \rs
+   = \ls \begin{array}{r} \sqrt{3/2} \\ 3\sqrt{3/2} \end{array} \rs.
+\]
+The solutions to this system are parametrized by $t$
+\[
+  \ls \begin{array}{c} a \\ b \\ c \end{array} \rs
+  =
+  \ls \begin{array}{c} \sqrt{3/2} \\ 3\sqrt{3/2} \\ 0 \end{array} \rs
+  + t \ls \begin{array}{c} -1 \\ -3 \\ 1 \end{array} \rs .
+\]
+Of course, the vector above is not length-$1$ for all values of $t$. However, we can now drop this requirement using arguments from Problem 1. The set of vectors that satisfy the conditions is just
+\[
+  S = \lb \ls \sqrt{3/2} , 3 \sqrt{3/2}, 0 \rs + t \ls -1, -3, 1 \rs \; : \; t \in \mbR \rb
+\]
+\end{proof}\else \newpage \fi
+
+
+
+\begin{prob} Find the approximate angle between the following two $100$-dimensional vectors
+\begin{align*}
+  \vec{u} & = \ls 1, -1,  1, -1,  1, -1, \dots, 1, -1,  1, -1 \rs \\
+  \vec{v} & = \ls 1,1/2,1/4,1/8,1/16,1/32\dots, 2^{-96}, 2^{-97},  2^{-98}, 2^{-99}\rs.
+\end{align*}
+What happens when the dimension of the above vectors grows (respecting the patterns above)?
+\end{prob} \ifsolns \begin{proof}
+First, note that
+\begin{align*}
+  |\vec{u}| & = \sqrt{100} \\
+            & = 10 \\
+  |\vec{v}| & = \sqrt{\sum_{n=0}^{99} \lp\frac{1}{2^2}\rp^n} \\
+            & = \sqrt{\frac{1-(1/4)^{1000}}{1-1/4}} \\
+            & \approx 2/\sqrt{3}
+\end{align*}
+Their inner product yields
+\begin{align*}
+  \vec{u} \cdot \vec{v}
+  & = \sum_{n=0}^{99} \lp -1/2 \rp^n \\
+  & = \frac{1 - (-1/2)^{100}}{1 + 1/2} \\
+  & \approx 2/3
+\end{align*}
+Altogether
+\[
+  \cos \theta \approx \frac{2/3}{10 \cdot 2/\sqrt{3}} = \frac{1}{\sqrt{3} \cdot 10}
+  \hspace{0.15in} \Longrightarrow \hspace{0.15in}
+  \theta \approx 86.7^{\circ}
+\]
+As the dimension of $\vec{u}$ and $\vec{v}$ grows, their internal angle approaches $90^{\circ}$ and the vectors becomes nearly orthogonal.
+\end{proof}\else \vspace{3in} \fi
+
+
+
+\begin{prob} Consider the following linear transformation
+\[
+  L \lp \ls \begin{array}{c} w \\ x \\ y \\ z \end{array} \rs\rp
+  = \ls \begin{array}{c}
+    w+z \\
+    x+y \\
+    w+x+y+z \\
+    w-x-y+z
+  \end{array} \rs
+\]
+What is the dimension of the range of $L$? How many equations define such a space? Give these equations.
+\end{prob} \ifsolns \begin{proof}
+The dimension of the range of $L$ is equal to the number of pivots that the matrix associated with $L$ contains. The matrix in question is
+\[
+  A_L = \ls \begin{array}{rrrr}
+     1 &  0 &  0 &  1 \\
+     0 &  1 &  1 &  0 \\
+     1 &  1 &  1 &  1 \\
+     1 & -1 & -1 &  1
+  \end{array} \rs
+\]
+By doing some quick row manipulations we can see that the reduced row echelon form of this matrix is
+\[
+  A_L = \ls \begin{array}{rrrr}
+     1 &  0 &  0 &  1 \\
+     0 &  1 &  1 &  0 \\
+     0 &  0 &  0 &  0 \\
+     0 &  0 &  0 &  0
+  \end{array} \rs .
+\]
+Thus the range of $L$ is a $2$-dimensional space. Since we are in a $4$-dimensional space, we will need two equations to restrict $\mbR^4$ to the range of $L$. In order to find a description of this space, consider using the Gauss-Jordan method on an augmented matrix
+\begin{align*}
+  \ls A_L \; | \; I \rs
+  & = \ls \begin{array}{rrrr|rrrr}
+     1 &  0 &  0 &  1 & 1 & 0 & 0 & 0 \\
+     0 &  1 &  1 &  0 & 0 & 1 & 0 & 0 \\
+     1 &  1 &  1 &  1 & 0 & 0 & 1 & 0 \\
+     1 & -1 & -1 &  1 & 0 & 0 & 0 & 1 \\
+  \end{array} \rs \\
+  & \rightarrow \ls \begin{array}{rrrr|rrrr}
+     1 &  0 &  0 &  1 & 1 & 0 & 0 & 0 \\
+     0 &  1 &  1 &  0 & 0 & 1 & 0 & 0 \\
+     0 &  0 &  0 &  0 &-1 &-1 & 1 & 0 \\
+     0 &  0 &  0 &  0 &-1 & 1 & 0 & 1 \\
+  \end{array} \rs
+\end{align*}
+Let's identify the left and right parts of the above matrix as $A_L'$ and $B_L$ (Note that $A_L = B_L^{-1}A_L'$). If we let $\ls a, b, c, d \rs$ be a vector in the range of $L$ then we have the relation
+\[
+  A_L' \ls \begin{array}{c} w \\ x \\ y \\ z \end{array} \rs
+  = B_L \ls \begin{array}{c} a \\ b \\ c \\ d \end{array} \rs
+\]
+This reduces to
+\[
+  \ls \begin{array}{c}
+    w+z \\
+    x+y \\
+    0 \\
+    0
+  \end{array} \rs
+  = \ls \begin{array}{c}
+    a \\
+    b \\
+    -a-b+c \\
+    -a+b+d
+  \end{array} \rs .
+\]
+Thus, we can simply read off the last two equations since they do not contain $w$, $x$, $y$, or $z$. The equations that define our space are
+\begin{align*}
+  0 & = -a-b+c \\
+  0 & = -a+b+d
+\end{align*}
+\end{proof}\else \newpage \fi
+
+
+
+\begin{prob} Find the plane passing through the following three points $P_1 = \ls 1,1,1 \rs$, $P_2 = \ls 1,2,3 \rs$, and $P_3 = \ls 2,1,1 \rs$. Write it in a parametrized form and then again in terms of constrains.
+\end{prob} \ifsolns \begin{proof}
+Consider answering the question, ``how do I get to a point in the plane from the origin?''. First, you must traverse from the origin to one of the points, say $P_1$, and then walk in the direction of $P_2$ or $P_3$. Thus, any point in the plane can be written as
+\[
+  \vec{x} = \overrightarrow{P_1} + s \overrightarrow{P_1P_2} + t \overrightarrow{P_1P_3}
+\]
+or
+\[
+  P = \lb \ls \begin{array}{c} 1 + t \\ 1+s \\ 1+2s \end{array} \rs \; : \; \forall s,t \in \mbR \rb .
+\]
+To write the constraint equation for this plane consider the following: take any point in the plane $Q$ and draw a vector to $P_1$. This vector must be perpendicular to the normal vector of the plane. The normal vector of the plane is found by taking the cross product of $\overrightarrow{P_1P_2}$ with $\overrightarrow{P_1P_3}$,
+\begin{align*}
+  \vec{n}
+  & = \overrightarrow{P_1P_2} \times \overrightarrow{P_1P_3} \\
+  & = \left| \begin{array}{rrr}
+    \mathbf{i} & \mathbf{j} & \mathbf{k} \\
+    0 & 1 & 2 \\
+    1 & 0 & 0
+  \end{array} \right| \\
+  & = \ls 0, 2, -1 \rs^T
+\end{align*}
+Now, if $Q$ is at location $\ls x, y, z \rs^T$, then $\overrightarrow{P_1Q} = \ls x-1, y-1, z-1 \rs^T$. In turn, this means that the condition for our plane is $\overrightarrow{P_1Q} \cdot \vec{n} = 0$, or
+\[
+  2y - z = 1
+\]
+\end{proof}\else \vspace{4in} \fi
+
+
+
+\begin{prob} A massive solar sail is deployed in space. The sail is shaped like a triangle and supported by three satellites. The satellites are reporting their positions relative to the international space station in metres. Satellite $1$ is at $\ls -1000, 1500, 2000\rs$, satellite $2$ is at $\ls 1000, 1500, 0 \rs$, satellite $3$ is at $\ls 500, -500, -500 \rs$. What is the area of the solar sail? \textbf{Hint:} Consider a parallelogram-shaped solar sail first.
+\end{prob} \ifsolns \begin{proof}
+First, let's work in kilometers for easier notation, this means the satellites are at
+\begin{align*}
+  S_1 & = \ls  -1, 3/2,   2 \rs \\
+  S_2 & = \ls   1, 3/2,   0 \rs \\
+  S_3 & = \ls 1/2,-1/2,-1/2 \rs
+\end{align*}
+If we consider a parallelogram-shaped sail, we can calculate it's area using the cross-product rule and the two vectors $\vec{u} = \overrightarrow{S_1S_2}$ and $\vec{v} = \overrightarrow{S_1S_3}$. First,
+\begin{align*}
+  \vec{u} & = \ls   2,  0,  -2 \rs \\
+  \vec{v} & = \ls 3/2, -2,-5/2 \rs .
+\end{align*}
+We can use the determinant method for calculating the cross product,
+\begin{align*}
+  \left| \begin{array}{rrr}
+    \mathbf{i} & \mathbf{j} & \mathbf{k} \\
+    2 & 0 & -2 \\
+    3/2 & -2 & -5/2
+  \end{array} \right|
+  & = \mathbf{i} \lp 0 \cdot (-5/2) - (-2) \cdot (-2) \rp \\
+  & - \mathbf{j} \lp 2 \cdot (-5/2) - (3/2) \cdot (-2) \rp \\
+  & + \mathbf{k} \lp 2 \cdot (-2) - (3/2) \cdot 0 \rp \\
+  & = \ls -4, -2, -4 \rs .
+\end{align*}
+The area of a parallelogram sail is then $| \vec{u} \times \vec{v} | = 6 \text{km}^2$. Since a triangle sail would be half of this area then the area of the solar sail is $\boxed{3 \text{km}^2}$.
+\end{proof}\else \newpage \fi
+
+
+
+
+
+
+
+
+
+\end{document}

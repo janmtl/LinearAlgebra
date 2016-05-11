@@ -1,0 +1,208 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#9}
+\date{Friday, March 27, 2015}
+\maketitle
+
+\begin{prob}[Planes]
+Let $S$ be the plane that satisfies the equation $10x+2y-z = 3$. Write this plane in parametric form, i.e.:
+\[S = \lb \vec{v}_0 + t_1\vec{v}_1 + t_2 \vec{v}_2 \; : \; t_1, t_2 \in \mbR \rb \]
+\end{prob} \ifsolns \begin{proof}
+First, let's find a vector that takes us from the origin to \emph{any} point in the plane, i.e.: any vector that solves the constraint equation. We can just pick two values for $x$ and $y$ and solve for $z$ in order to get this, e.g.: $[0,0,-3]$ is a point in the plane. Now, let's find solutions to the \emph{homogenous} system or, equivalently, the plane centered at the origin. This means the equation becomes
+\[
+  10x + 2y - z = 0 .
+\]
+This is equivalent to the linear system
+\[
+  \ls \begin{array}{rrr}
+    10 &  2 & -1 \\
+     0 &  0 &  0 \\
+     0 &  0 &  0
+  \end{array} \rs \vec{x}
+   = \ls \begin{array}{c}
+    0 \\ 0 \\ 0
+   \end{array} \rs
+   \hspace{0.25in} \longrightarrow \hspace{0.25in}
+  \ls \begin{array}{rrr}
+    1 & 0.2 & -0.1 \\
+    0 &   0 &    0 \\
+    0 &   0 &    0
+  \end{array} \rs \vec{x}
+   = \ls \begin{array}{c}
+    0 \\ 0 \\ 0
+   \end{array} \rs
+\]
+which has solutions parametrized by two free variables, let $y = t_1$ and $z = t_2$ then
+\[
+  \vec{x} = t_1 \ls \begin{array}{c} -0.2 \\ 1 \\ 0 \end{array} \rs + t_2 \ls \begin{array}{c} 0.1 \\ 0 \\ 1 \end{array} \rs
+\]
+Thus, our plane is given by these vectors plus the displacement we found
+\[
+  S = \lb 
+        \ls \begin{array}{c}    0 \\ 0 \\ -3 \end{array} \rs
+  + t_1 \ls \begin{array}{c} -0.2 \\ 1 \\  0 \end{array} \rs
+  + t_2 \ls \begin{array}{c}  0.1 \\ 0 \\  1 \end{array} \rs
+  \; : \; t_1, t_2 \in \mbR
+  \rb
+\]
+\end{proof}\else \vspace{1in} \fi
+
+
+
+\begin{prob}[Subspaces]
+None of the following subsets are subspaces. Why not?
+\begin{enumerate}[label=(\alph*)]
+\item The subset of all real-valued functions $f(x)$ that satisfy $\int_0^1 f(x) dx = 1$
+\item This subset of real numbers $\lb x \in \mbR \; : \; 1/x \in \mbR \rb$
+\item The subset of real-valued vectors with the addition operation $\vec{u} \oplus \vec{v} = \vec{u}+\vec{v}/2$ and the standard scalar operation $c \odot \vec{v} = c \vec{v}$.
+\end{enumerate} 
+\end{prob} \ifsolns \begin{proof} \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item The zero function is not in the set.
+\item $0$ is not in the set.
+\item Note that $(a \oplus b) \vec{v} \neq a \vec{v} \oplus b \vec{v}$.
+\end{enumerate} 
+\end{proof}\else \vspace{1in} \fi
+
+
+
+\begin{prob}[Span]
+Do the following sets $S_1$ and $S_2$ span the same subspaces?
+\begin{enumerate}[label=(\alph*)]
+\item $S_1 = \lb [0,1], [1,0] \rb$ and $S_2 = \lb [1,1], [1,-1] \rb$
+\item The set
+\[
+  S_1 = \lb
+    \ls \begin{array}{r}  3 \\    1 \\   -2 \\   -2 \end{array} \rs,
+    \ls \begin{array}{r}  1 \\   -1 \\   -3 \\   -9 \end{array} \rs,
+    \ls \begin{array}{r}  1 \\    1 \\   -2 \\   -4 \end{array} \rs,
+    \ls \begin{array}{r} -2 \\    0 \\   -2 \\   -8 \end{array} \rs,
+    \ls \begin{array}{r}  3 \\   -3 \\    0 \\    0 \end{array} \rs
+  \rb
+\]
+and the set
+\[
+  S_2 = \lb
+    \ls \begin{array}{r} 2 \\    0 \\    2 \\    8 \end{array} \rs,
+    \ls \begin{array}{r} 2 \\    1 \\   -2 \\   -3 \end{array} \rs,
+    \ls \begin{array}{r} 2 \\   -1 \\    2 \\    7 \end{array} \rs
+  \rb
+\]
+\item Let $C^1 (\mbR)$ be the set of continuous differentiable functions and let $S_1 = C^1 (\mbR)$ while
+\[
+  S_2 = \lb f(x) \in C^1 (\mbR) \; : \; f(x) = f(-x) \rb \cup \lb f(x) \in C^1(\mbR) \; : \; f(x) = -f(-x)\rb .
+\]
+\end{enumerate}
+\end{prob} \ifsolns \begin{proof} \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item Both of these sets span exactly $\mbR^2$
+\item Let $A_1$ be the matrix
+\[
+  A_1 = \ls \begin{array}{rrrrr}
+     3 &    1 &    1 &   -2 &    3 \\
+     1 &   -1 &    1 &    0 &   -3 \\
+    -2 &   -3 &   -2 &   -2 &    0 \\
+    -2 &   -9 &   -4 &   -8 &    0
+  \end{array} \rs
+\]
+The span of $S_1$ is equal to the range of this matrix. We find the range by performing Gaussian Elimination on $A_1^T$ to find
+\[
+  A_1^T \rightarrow \ls \begin{array}{rrrr}
+     1 &    0 &    0 &   1 \\
+     0 &    1 &    0 &   1 \\
+     0 &    0 &    1 &   3 \\
+     0 &    0 &    0 &   0 \\
+     0 &    0 &    0 &   0
+  \end{array} \rs
+\]
+The same procedure for $S_2$ yields
+\[
+  A_2^T \rightarrow \ls \begin{array}{rrrr}
+     1 &    0 &    0 &   1 \\
+     0 &    1 &    0 &   1 \\
+     0 &    0 &    1 &   3
+  \end{array} \rs
+\]
+And so, $\mathrm{span} \lp S_1 \rp = \mathrm{span} \lp S_2 \rp$
+\item For this problem we need only to be show that $\mathrm{span} (S_1) \subseteq \mathrm{span} (S_2)$ \textbf{and} that $\mathrm{span} (S_1 \supseteq \mathrm{span} S_2)$. The second of these is obvious (since the two sets in the definition of $S_2$ are already in $S_1$). So, it remains to show the the first inclusion. To do so, we just need to be able to write any continuous differentiable function as the sum of two other functions, one even, one odd. Consider that
+\begin{align*}
+  f(x)
+  & = \frac{1}{2} f(x) + \frac{1}{2} f(x) \\
+  & = \frac{1}{2} f(x) + \frac{1}{2} f(x) + \frac{1}{2} f(-x) - \frac{1}{2} f(-x) \\
+  & = \frac{f(x) + f(-x)}{2} + \frac{f(x) - f(-x)}{2}.
+\end{align*}
+Let $g_1(x) = \frac{f(x) + f(-x)}{2}$ and $g_2 = \frac{f(x) - f(-x)}{2}$. $g_1(x)$ is clearly even while $g_2(x)$ is odd. Thus, $\mathrm{span} (S_1) \subseteq \mathrm{span} (S_2)$ and we can conclude that $\mathrm{span} (S_1) = \mathrm{span} (S_2)$.
+\end{enumerate}
+\end{proof}\else \newpage \fi
+
+
+\begin{prob}[Matrix subspaces]
+Given $A$ as below
+\[
+  A = \ls \begin{array}{rrrr}
+     1 &    2 &   -1 &   -3 \\
+    -2 &    0 &   -2 &    4 \\
+     0 &   -1 &    1 &    4 \\
+     1 &    4 &   -3 &    3
+  \end{array} \rs
+\]
+\begin{enumerate}[label=(\alph*)]
+\item What is the range of $A$?
+\item What is the nullspace of $A$?
+\item What is the dimension of the space of solutions to $A\vec{x} = \vec{b}$?
+\end{enumerate}
+\end{prob} \ifsolns \begin{proof} \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item The range of $A$ can be found by taking the RREF of $A^T$. This yields
+\[
+  A^T = \ls \begin{array}{rrrr}
+     1 &   -2 &    0 &    1 \\
+     2 &    0 &   -1 &    4 \\
+    -1 &   -2 &    1 &   -3 \\
+    -3 &    4 &    4 &    3
+  \end{array} \rs
+  \hspace{0.25in} \longrightarrow \hspace{0.25in}
+  \ls \begin{array}{rrrr}
+     1 &    0 &    0 &    3 \\
+     0 &    1 &    0 &    1 \\
+     0 &    0 &    1 &    2 \\
+     0 &    0 &    0 &    0
+  \end{array} \rs
+\]
+Thus the range of $A$ is a $3$-dimensional space given by
+\[
+  R(A) = \mathrm{span} \lb
+    \ls \begin{array}{r} 1 \\    0 \\    0 \\    3 \end{array} \rs ,
+    \ls \begin{array}{r} 0 \\    1 \\    0 \\    1 \end{array} \rs ,
+    \ls \begin{array}{r} 0 \\    0 \\    1 \\    2 \end{array} \rs
+  \rb .
+\]  
+\item The null space is found by solving the equation $A \vec{x} = \vec{0}$, following Gaussian Elimination we see
+\[
+  A \vec{x} = \vec{0}
+  \hspace{0.25in} \longrightarrow \hspace{0.25in}
+  \ls \begin{array}{rrrr}
+     1 &    0 &    1 &    0 \\
+     0 &    1 &   -1 &    0 \\
+     0 &    0 &    0 &    1 \\
+     0 &    0 &    0 &    0
+  \end{array} \rs \vec{x} = \vec{0}
+\]
+The solution to this equation is a $1$-dimensional vector space given by
+\[
+  N(A) = \mathrm{span} \lb
+    \ls \begin{array}{r} 1 \\   -1 \\   -1 \\    0 \end{array} \rs
+  \rb
+\]
+\item The dimension of this space is equal to the dimension of the nullspace ($1$-dimensional) since we know that for any particular solution $\vec{x}_p$ we find to the equation $A \vec{x} = \vec{b}$, we will always be able to add any vector from the null space $\vec{x}_0$ and have $\vec{x} = \vec{x}_p + \vec{x}_0$ as another solution. 
+\end{enumerate}
+\end{proof}\else \vspace{3in} \fi
+
+\end{document}

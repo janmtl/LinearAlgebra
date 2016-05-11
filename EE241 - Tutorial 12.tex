@@ -1,0 +1,188 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#12}
+\date{Friday, April 17, 2015}
+\maketitle
+
+\begin{prob}[Change of basis for vectors]
+Haar wavelets can be thought of as basis vectors for discrete signals. The are useful for representing ``edges'' in a signal. The $4$-dimensional Haar wavelet basis is
+\[
+  H_4 = \ls \begin{array}{rrrr}
+     1 &  1 &  1 &  1 \\
+     1 &  1 & -1 & -1 \\
+     1 & -1 &  0 &  0 \\
+     0 &  0 &  1 & -1
+  \end{array} \rs, \hspace{0.5in}
+  H_4^{-1} = \ls \begin{array}{rrrr}
+    1/4 &  1/4 &  1/2  &    0 \\
+    1/4 &  1/4 & -1/2  &    0 \\
+    1/4 & -1/4 &    0  &  1/2 \\
+    1/4 & -1/4 &    0  & -1/2
+  \end{array} \rs .
+\]
+Important note: this is the standard representation you find in literature but it lists the basis vectors in the \emph{rows} of the matrix, not the columns (as we're used to doing), so remember that as you read the solution below. (I've included $H_4^{-1}$ as a hint.) I give you a signal in the Haar basis $\ls \vec{x} \rs_H = [10,1,0,0]$ and you have a signal in the time-basis (standard basis) $\vec{y} = [1,-1,1,-1]$. I ask you to modulate (i.e.: add together) the two signals and return the answer to me in the Haar basis.
+\end{prob} \ifsolns \begin{proof}
+There are two ways to solve this. The simplest way is to bring $\vec{y}$ into the Haar basis and add it to $\ls \vec{x} \rs_H$. To do this we can just write
+\[
+  \ls \vec{y} \rs_H = \lp H_4^T \rp \vec{y} = \ls 0,0,1,1 \rs
+\]
+and our answer is
+\[
+  \ls \vec{z} \rs_H = \ls \vec{x} \rs_H + \ls \vec{y} \rs_H = \ls 10,1,2,2 \rs .
+\]
+Our other option was to move $\ls \vec{x} \rs_H$ to the standard basis, perform the addition there and then transform the result \emph{back} into the Haar basis, to do this we would do
+\[
+  \ls \vec{z} \rs_H = H_4^T \lp \lp H_4^T \rp^{-1} \ls\vec{x}\rs_H + \vec{y} \rp
+\]
+and this would give us exactly the same answer.
+\end{proof}\else \vspace{2.5in} \fi
+
+
+
+
+\begin{prob}[Ortho- gonal/normal matrices and bases] \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item If $\vec{u} \perp \vec{v}$, is $\lp \a \vec{u} \rp \perp \vec{v}$ for any $\a \in \mbR$? 
+\item Starting with the row-ortho\underline{gonal} matrix $H_4$ from problem (1), find the related ortho\underline{normal} matrix.
+\item Given an orthonormal matrix $A$, prove that $AA^T = I_n$. Furthermore, prove that if $B$ is also orthonormal, then $C=AB$ is orthonormal. \textbf{Hint:} Use that the $(i,j)^{\text{th}}$ entry of $AB$ is $\vec{a}_i \cdot \vec{b}_j$ where $\vec{a}_i$ is the $i^{\text{th}}$ row of $A$ and $\vec{b}_j$ is the $j^{\text{th}}$ column of $B$.
+\end{enumerate}
+\end{prob} \ifsolns \begin{proof} \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item This is always the case since if $\vec{u} \perp \vec{v}$ then $\vec{u} \cdot \vec{v} = 0$ and multiplying both sides by $\a$ we see that
+\[
+  \a \lp \vec{u} \cdot \vec{v} \rp = \a \cdot 0
+  \hspace{0.25in} \Longrightarrow \hspace{0.25in}
+  \lp \a \vec{u} \rp \cdot \vec{v} = 0 .
+\]
+\item Here we can use the fact from part (a) that rescaling vectors does not change their orthogonality and we can simply scale each \underline{row} of $H_4$ such that the row vectors are normal.
+\begin{align*}
+    | \ls 1,  1,  1,  1 \rs | = 2
+    | \ls 1,  1, -1, -1 \rs | = 2
+    | \ls 1, -1,  0,  0 \rs | = \sqrt{2}
+    | \ls 0,  0,  1, -1 \rs | = \sqrt{2}
+\end{align*}
+Thus the new matrix $H_4'$ is
+\[
+  H_4 = \ls \begin{array}{rrrr}
+     1/2 &  1/2 &  1/2 &  1/2 \\
+     1/2 &  1/2 & -1/2 & -1/2 \\
+     1/\sqrt{2} & -1/\sqrt{2} &  0 &  0 \\
+     0 &  0 &  1/\sqrt{2} & -1/\sqrt{2}
+  \end{array} \rs .
+\]
+\textbf{Note that now the rows AND the columns are orthonormal.}
+\item Using the hint we can more succinctly write the product $AA^T$
+\begin{align*}
+  \ls AA^T \rs_{i,j}
+  & = \vec{a}_i \cdot \vec{a}_j \\
+  & = \lb \begin{array}{lcr}
+    |\vec{a}_i|^2 & \text{when} & i=j \\
+    0 & \text{when} & i \neq j
+  \end{array} \right. \\
+  & = \lb \begin{array}{lcr}
+    1 & \text{when} & i=j \\
+    0 & \text{when} & i \neq j
+  \end{array} \right.
+\end{align*}
+Thus $AA^T = I_n$. Now to show that $C=AB$ is orthonormal, we should note that all of the things we need to check about $C$ we can check by verifying that $CC^T = I_n$. Each of the $1$'s on the diagonal prove that the columns of $C$ are normal and each of the $0$'s off of the diagonal prove that the columns are mutually orthogonal. Thus, since $A$ and $B$ are orthonormal then $AA^T = I_n$ and $BB^T = I_n$ and
+\begin{align*}
+  CC^T
+  & = \lp AB \rp \lp AB \lp^T \\
+  & = A B B^T A^T \\
+  & = A I_n A^T \\
+  & = A A^T \\
+  & = I_n .
+\end{align*}
+Thus $C$ is orthonormal as well.
+\end{enumerate}
+\end{proof}\else \newpage \fi
+
+
+
+
+\begin{prob}[Change of basis for matrices]
+Consider the following linear transformation on vectors in $\mbR^3$
+\[
+  L \lp \begin{array}{r}
+    x \\ y \\ z
+  \end{array} \rp
+   = \lp \begin{array}{c}
+    x+y+z \\ y-z \\ 2x
+   \end{array} \rp
+\]
+and the following basis for $\mbR^3$
+\[
+  S = \lb
+    \ls \begin{array}{r} 1 \\ -1 \\ 0 \end{array} \rs,
+    \ls \begin{array}{r} 1 \\  0 \\-1 \end{array} \rs,
+    \ls \begin{array}{r} 0 \\  1 \\ 1 \end{array} \rs
+  \rb
+\]
+What is the matrix representing $L$ in the $S$ basis? 
+\end{prob} \ifsolns \begin{proof}
+The matrix representing $L$ in the standard basis can be easily read out from the definition of the linear transformation
+\[
+  L = \ls \begin{array}{rrr}
+     1 &  1 &  1 \\
+     0 &  1 & -1 \\
+     2 &  0 &  0
+  \end{array} \rs .
+\]
+To find $\ls L \rs_S$ we consider what happens to a vector $\ls \vec{x} \rs_S$ at the input to this transformation. First, we must take $\ls \vec{x} \rs_S$ into the standard basis thus we must apply the change of basis 
+\[
+  \vec{x} = S \ls \vec{x} \rs_S
+\]
+where $S$ is the matrix formed from the basis vectors as columns. Now we can apply $L$ in the standard basis to get the output of the transformation, again, in the standard basis
+\[
+  \vec{y} = L S \ls \vec{x} \rs_S .
+\]
+Finally, to get back to the $S$ basis, we apply $S^{-1}$ as given below:
+\[
+  S^{-1} = \lb
+    \ls \begin{array}{r}  1/2 \\ -1/2 \\  1/2 \end{array} \rs,
+    \ls \begin{array}{r}  1/2 \\  1/2 \\ -1/2 \end{array} \rs,
+    \ls \begin{array}{r}  1/2 \\  1/2 \\  1/2 \end{array} \rs
+  \rb
+\]
+and
+\[
+  \ls \vec{y} \rs_S = S^{-1} L S \ls \vec{x} \rs_S .
+\]
+Thus, the matrix that represents the action of $L$ in the basis $S$ is what is left in this equation, i.e.:
+\[
+  \ls L \rs_S = S^{-1} L S
+\]
+or
+\[
+  \ls L \rs_S = \ls \begin{array}{rrr}
+     3/2 &  1/2 & 1 \\
+    -3/2 & -1/2 & 1 \\
+     1/2 &  3/2 & 1
+  \end{array} \rs .
+\]
+
+\end{proof}\else \newpage \fi
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

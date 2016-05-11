@@ -1,0 +1,901 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>EE241 Spring 2015, Tutorial 6, Feb. 27</title><meta name="generator" content="MATLAB 8.4"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-27"><meta name="DC.source" content="EE241.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>EE241 Spring 2015, Tutorial 6, Feb. 27</h1><!--introduction--><p>In this tutorial we'll cover some of the basic use cases for MATLAB&reg; in linear algebra as well some basic troubleshooting.</p><p>Off the bat, note that USC provides MATLAB for free to its students at <a href="http://software.usc.edu">http://software.usc.edu</a>. However! USC provides the 2013b release. If you're running Mac OS X Yosemite (10.10), you should go to the mathworks website (<a href="http://www.mathworks.com">http://www.mathworks.com</a>) and create a Mathworks account, then download MATLAB 2014b which runs on the newer version of Java. "Activating" MATLAB during the installation process can be harrowing. I find it easiest to just use your mathworks account. The same key USC gives you for their download of 2013b should work for 2014b as well.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">The MATLAB UI</a></li><li><a href="#2">Matrices: first-class citizens in the world of MATLAB</a></li><li><a href="#9">Extracting values</a></li><li><a href="#18">Basic linear algebra with MATLAB</a></li><li><a href="#24">Singular matrices</a></li><li><a href="#29">Wide (under-constrainted) and tall (over-constrainted) systems</a></li><li><a href="#34">Special matrices</a></li><li><a href="#45">Benchmarking</a></li><li><a href="#49">Numerical precision</a></li><li><a href="#56">Determinants</a></li><li><a href="#60">The MATLAB&reg; PATH</a></li><li><a href="#63">Is the average matrix intertible?</a></li></ul></div><h2>The MATLAB UI<a name="1"></a></h2><p>If you're reading this as a webpage: cool! If you want to try out the commands inside this document download the tutorial file from blackboard. If you open this file in MATLAB it will appear in an "Editor" window. This is a window for writing and editing MATLAB scripts. In the default MATLAB setup there should be a file browser on the left ("Current Folder") and a variable browser on the right ("Workspace"). There should also be a Command Window at the bottom. The command window is where you can execute individual commands interactively, or call on scripts. It's also where the output of any line without a semi-colon (;) shows up. You can reorganize your workspace to accomodate what you're working on.</p><p>Let's start by calling clear; to clear all variables from memory, and clc; to clear the command window of text. Note that any number of MATLAB commands can fit on the same line if they are each followed by a semi-colon.</p><pre class="codeinput">clear; clc;
+</pre><h2>Matrices: first-class citizens in the world of MATLAB<a name="2"></a></h2><p>You can write a row vector by using commas</p><pre class="codeinput">u = [1,2,3,4]
+</pre><pre class="codeoutput">u =
+     1     2     3     4
+</pre><p>You can write a column vector by using colons</p><pre class="codeinput">v = [1;2;3;4]
+</pre><pre class="codeoutput">v =
+     1
+     2
+     3
+     4
+</pre><p>You can write a matrix by using a combination of both</p><pre class="codeinput">A = [1,2;3,4]
+</pre><pre class="codeoutput">A =
+     1     2
+     3     4
+</pre><p>A colon between two numbers (hard-coded or variable) gives a range between those numbers</p><pre class="codeinput">2:5
+</pre><pre class="codeoutput">ans =
+     2     3     4     5
+</pre><p>A set of three numbers seperate by colons gives a range with a step, i.e.:</p><pre class="codeinput">0.1:0.2:0.95
+</pre><pre class="codeoutput">ans =
+    0.1000    0.3000    0.5000    0.7000    0.9000
+</pre><p>Note that the result only goes to 0.9 and doesn't include 0.95. We can also measure the size of matrices using the following two functions</p><pre class="codeinput">size(A)
+numel(A)
+</pre><pre class="codeoutput">ans =
+     2     2
+ans =
+     4
+</pre><p>'size(A)' gives you a vector of dimensions (in our case matrices have 2 dimensions), 'numel(A)' gives you the number of elements contained inside A. This second one is useful if you want to know roughly how much space your matrix takes up in memory.</p><pre class="codeinput">clear; clc;
+</pre><h2>Extracting values<a name="9"></a></h2><p>To extract the elements of a matrix, use parentheses</p><pre class="codeinput">A = [1,2;3,4];
+A(1,2)
+</pre><pre class="codeoutput">ans =
+     2
+</pre><p>The arguments are always A(row,column) However! 'row' and 'column' can be vectors too! Consider first, the following matrix</p><pre class="codeinput">B = [1,2,3,4;5,6,7,8;9,0,1,2;3,4,5,6]
+</pre><pre class="codeoutput">B =
+     1     2     3     4
+     5     6     7     8
+     9     0     1     2
+     3     4     5     6
+</pre><p>We can extract the last three entries of the second row by calling</p><pre class="codeinput">B(2,2:4)
+</pre><pre class="codeoutput">ans =
+     6     7     8
+</pre><p>We can even skip the third column by using a step</p><pre class="codeinput">B(2,2:2:4)
+</pre><pre class="codeoutput">ans =
+     6     8
+</pre><p>We can do this for all rows at once by using a range without arguments</p><pre class="codeinput">B(:,2:2:4)
+</pre><pre class="codeoutput">ans =
+     2     4
+     6     8
+     0     2
+     4     6
+</pre><p>By default ranges are 0:1:end and any argument we leave out is assumed to take those values</p><pre class="codeinput">B(:,2)
+</pre><pre class="codeoutput">ans =
+     2
+     6
+     0
+     4
+</pre><p>Notice the following behavior for two ranges</p><pre class="codeinput">B(1:2:4,1:2:4)
+</pre><pre class="codeoutput">ans =
+     1     3
+     9     1
+</pre><p>A powerful trick for augmenting a matrix</p><pre class="codeinput">A = [1,2,3;4,5,6;7,8,9];
+b = [1;1;1];
+[A,b]
+[A b]
+</pre><pre class="codeoutput">ans =
+     1     2     3     1
+     4     5     6     1
+     7     8     9     1
+ans =
+     1     2     3     1
+     4     5     6     1
+     7     8     9     1
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>Basic linear algebra with MATLAB<a name="18"></a></h2><p>You can multiply matching dimension</p><pre class="codeinput">[1,2,3]*[1;2;3]
+[1;2;3]*[1,2,3]
+</pre><pre class="codeoutput">ans =
+    14
+ans =
+     1     2     3
+     2     4     6
+     3     6     9
+</pre><p>You can easily take transposes of vectors or matrices with an apostrophe</p><pre class="codeinput">[1,2,3]'
+[1,2;3,4]'
+</pre><pre class="codeoutput">ans =
+     1
+     2
+     3
+ans =
+     1     3
+     2     4
+</pre><p>Solving a linear system is, however, very easy</p><pre class="codeinput">A = [1,2,3,4;5,6,7,8;9,0,1,2;3,4,5,0]
+b = [1;2;3;4]
+x = A\b
+</pre><pre class="codeoutput">A =
+     1     2     3     4
+     5     6     7     8
+     9     0     1     2
+     3     4     5     0
+b =
+     1
+     2
+     3
+     4
+x =
+    0.2500
+   -1.1667
+    1.5833
+   -0.4167
+</pre><p>If you want to see it as fractions, try</p><pre class="codeinput">format <span class="string">rat</span>
+x
+format <span class="string">short</span>
+</pre><pre class="codeoutput">x =
+       1/4     
+      -7/6     
+      19/12    
+      -5/12    
+</pre><p>Notice that inv(A) gets us the same result</p><pre class="codeinput">C = inv(A)
+C*b
+</pre><pre class="codeoutput">C =
+   -0.1500    0.0500    0.1000    0.0000
+   -1.3667    0.7333   -0.2000   -0.1667
+    1.1833   -0.6167    0.1000    0.3333
+    0.0833    0.0833    0.0000   -0.1667
+ans =
+    0.2500
+   -1.1667
+    1.5833
+   -0.4167
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>Singular matrices<a name="24"></a></h2><p>What happens when we consider linear systems without single solutions? First, let's try a square matrix that has some free variables in rref</p><pre class="codeinput">A = [1,2,3;4,5,6;5,7,9]
+rref(A)
+</pre><pre class="codeoutput">A =
+     1     2     3
+     4     5     6
+     5     7     9
+ans =
+     1     0    -1
+     0     1     2
+     0     0     0
+</pre><p>Note the introduction of the rref(A) function above. It works exactly like you'd expect it to. Next let's choose a 'b'. To ensure Ax=b has a solution, we'll just choose 'x' first</p><pre class="codeinput">x = [1;2;3];
+b = A*x
+</pre><pre class="codeoutput">b =
+    14
+    32
+    46
+</pre><p>Now let's go back and solve for 'x'</p><pre class="codeinput">x1 = A\b
+x2 = inv(A)*b
+</pre><pre class="codeoutput">Warning: Matrix is close to singular or badly scaled.
+Results may be inaccurate. RCOND =  1.541976e-17. 
+x1 =
+    0.4000
+    3.2000
+    2.4000
+Warning: Matrix is close to singular or badly scaled.
+Results may be inaccurate. RCOND =  1.541976e-17. 
+x2 =
+     8
+     0
+     8
+</pre><p>Looks like the two inversion methods gave us two different solutions! You should always check your solutions</p><pre class="codeinput">A*x2
+</pre><pre class="codeoutput">ans =
+    32
+    80
+   112
+</pre><p>And so we discard the inv(A) result.</p><pre class="codeinput">clear; clc;
+</pre><h2>Wide (under-constrainted) and tall (over-constrainted) systems<a name="29"></a></h2><p>How does MATLAB handle non-square matrices? Let's consider a wide matrix (under-constrained problem) first</p><pre class="codeinput">A = [1,2,3,4;5,6,7,8;1,0,1,0];
+b = A*[1;0;1;0];
+x = A\b
+</pre><pre class="codeoutput">x =
+    2.0000
+   -1.0000
+         0
+    1.0000
+</pre><p>Works fine! But the general solution obviously has some free variables in it. Nullspace will be covered later in the course but if you're curious about how to generate the other solutions just call</p><pre class="codeinput">x + null(A)
+</pre><pre class="codeoutput">ans =
+    1.5000
+   -0.5000
+    0.5000
+    0.5000
+</pre><p>A tall matrix (over-constrained system) is</p><pre class="codeinput">A = [1,0,2;0,1,3;-1,1,1;1,1,5]
+b = [0;0;0;1]
+x = A\b
+</pre><pre class="codeoutput">A =
+     1     0     2
+     0     1     3
+    -1     1     1
+     1     1     5
+b =
+     0
+     0
+     0
+     1
+Warning: Rank deficient, rank = 2, tol =  5.546672e-15. 
+x =
+    0.1111
+         0
+    0.1111
+</pre><p>The warning generated by MATLAB should clue us into the fact that there is no solution. We can just check that</p><pre class="codeinput">A*x
+</pre><pre class="codeoutput">ans =
+    0.3333
+    0.3333
+    0.0000
+    0.6667
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>Special matrices<a name="34"></a></h2><p>The identity matrix (and its cousins)</p><pre class="codeinput">eye(2)
+eye(2,3)
+eye(3,2)
+</pre><pre class="codeoutput">ans =
+     1     0
+     0     1
+ans =
+     1     0     0
+     0     1     0
+ans =
+     1     0
+     0     1
+     0     0
+</pre><p>The all-zeros matrix</p><pre class="codeinput">zeros(2)
+zeros(2,3)
+zeros(3,2)
+</pre><pre class="codeoutput">ans =
+     0     0
+     0     0
+ans =
+     0     0     0
+     0     0     0
+ans =
+     0     0
+     0     0
+     0     0
+</pre><p>The all-ones matrix</p><pre class="codeinput">ones(2)
+ones(2,3)
+ones(3,2)
+</pre><pre class="codeoutput">ans =
+     1     1
+     1     1
+ans =
+     1     1     1
+     1     1     1
+ans =
+     1     1
+     1     1
+     1     1
+</pre><p>A matrix of uniformly distributed random numbers</p><pre class="codeinput">rand(3)
+</pre><pre class="codeoutput">ans =
+    0.9119    0.4015    0.8949
+    0.6693    0.4245    0.0779
+    0.9257    0.2616    0.6608
+</pre><p>A matrix of uniformly distributed random integers from 0 to 5</p><pre class="codeinput">A = randi(5,3)
+</pre><pre class="codeoutput">A =
+     2     4     3
+     4     3     3
+     1     2     2
+</pre><p>The upper-triangular portion of A</p><pre class="codeinput">triu(A)
+</pre><pre class="codeoutput">ans =
+     2     4     3
+     0     3     3
+     0     0     2
+</pre><p>The upper-triangular portion of A <b>without</b> the diagonal entries</p><pre class="codeinput">triu(A,1)
+</pre><pre class="codeoutput">ans =
+     0     4     3
+     0     0     3
+     0     0     0
+</pre><p>The lower-triangular part</p><pre class="codeinput">tril(A)
+</pre><pre class="codeoutput">ans =
+     2     0     0
+     4     3     0
+     1     2     2
+</pre><p>The diagonal part of A</p><pre class="codeinput">diag(A)
+</pre><pre class="codeoutput">ans =
+     2
+     3
+     2
+</pre><p>A diagonal matrix formed from a vector</p><pre class="codeinput">d = [1,2,3];
+diag(d)
+</pre><pre class="codeoutput">ans =
+     1     0     0
+     0     2     0
+     0     0     3
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>Benchmarking<a name="45"></a></h2><p>So what's the difference between inv(A)*b and A\b? Consider:</p><pre class="codeinput">n = 4000;
+Q = orth(randn(n,n));  <span class="comment">% These four steps are</span>
+d = logspace(0,-10,n); <span class="comment">% designed only to cause</span>
+A = Q*diag(d)*Q';      <span class="comment">% trouble for MATLAB so</span>
+x = randn(n,1);        <span class="comment">% that it can't take shortcuts</span>
+b = A*x;
+</pre><p>Now solve the system with inv(A)*b</p><pre class="codeinput">tic, y = inv(A)*b; toc
+err = norm(y-x)
+res = norm(A*y-b)
+</pre><pre class="codeoutput">Elapsed time is 1.136972 seconds.
+err =
+   3.3069e-05
+res =
+   2.5955e-06
+</pre><p>Compared to with A\b:</p><pre class="codeinput">tic, z = A\b; toc
+err = norm(z-x)
+res = norm(A*z-b)
+</pre><pre class="codeoutput">Elapsed time is 0.461191 seconds.
+err =
+   2.9523e-05
+res =
+   2.5275e-14
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>Numerical precision<a name="49"></a></h2><p>What's the value of 2^53 + 1 - 2^53? If you said '1', MATLAB disagrees</p><pre class="codeinput">2^53 + 1 - 2^53
+</pre><pre class="codeoutput">ans =
+     0
+</pre><p>Now, what's the value of 2^53 - 2^53 + 1?</p><pre class="codeinput">2^53 - 2^53 + 1
+</pre><pre class="codeoutput">ans =
+     1
+</pre><p>MATLAB calculates the first operator before the second and, in between, incurs some errors because 2^53 is too large. Similarily</p><pre class="codeinput">1 - 3*(4/3 - 1)
+</pre><pre class="codeoutput">ans =
+   2.2204e-16
+</pre><p>Since 4/3 cannot be represented accurately in binary. Sometimes, this works against you by producing '0' where there should not be one</p><pre class="codeinput">sqrt(1e-16 + 1) - 1
+</pre><pre class="codeoutput">ans =
+     0
+</pre><p>The function eps(x) tells us how much error there can be on a given number</p><pre class="codeinput">eps(0)
+eps(1)
+eps(pi)
+</pre><pre class="codeoutput">ans =
+  4.9407e-324
+ans =
+   2.2204e-16
+ans =
+   4.4409e-16
+</pre><p>Let's experiment with eps() and inv()</p><pre class="codeinput">A = ones(5)
+inv(A)
+inv(A+eye(5)*eps(1))
+</pre><pre class="codeoutput">A =
+     1     1     1     1     1
+     1     1     1     1     1
+     1     1     1     1     1
+     1     1     1     1     1
+     1     1     1     1     1
+Warning: Matrix is singular to working precision. 
+ans =
+   Inf   Inf   Inf   Inf   Inf
+   Inf   Inf   Inf   Inf   Inf
+   Inf   Inf   Inf   Inf   Inf
+   Inf   Inf   Inf   Inf   Inf
+   Inf   Inf   Inf   Inf   Inf
+Warning: Matrix is close to singular or badly scaled.
+Results may be inaccurate. RCOND =  2.683039e-17. 
+ans =
+   1.0e+15 *
+    3.5718   -0.9318   -0.9318   -0.7765   -0.9318
+   -0.9318    3.5718   -0.9318   -0.7765   -0.9318
+   -0.9318   -0.9318    3.5718   -0.7765   -0.9318
+   -0.7765   -0.7765   -0.7765    3.7271   -0.9318
+   -0.9318   -0.9318   -0.9318   -0.9318    3.7271
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>Determinants<a name="56"></a></h2><p>MATLAB calculates the determinant using the LU decomposition we covered in an earlier tutorial (optional material). Let's see the det() command in action</p><pre class="codeinput">A = [1,2,3,4;5,6,7,8;1,0,1,0;0,1,0,2]
+det(A)
+</pre><pre class="codeoutput">A =
+     1     2     3     4
+     5     6     7     8
+     1     0     1     0
+     0     1     0     2
+ans =
+   -8.0000
+</pre><p>The determinant is a nice way to check if a matrix is invertible</p><pre class="codeinput">A = [1,2,3,4;5,6,7,8;0,0,0,1;0,0,0,1]
+det(A)
+</pre><pre class="codeoutput">A =
+     1     2     3     4
+     5     6     7     8
+     0     0     0     1
+     0     0     0     1
+ans =
+     0
+</pre><p>The calculation of the determinant is also susceptible to the same numerical imprecision we introduced earlier</p><pre class="codeinput">rref(A)
+det(rref(A)+eye(4)*eps(0))
+</pre><pre class="codeoutput">ans =
+     1     0    -1     0
+     0     1     2     0
+     0     0     0     1
+     0     0     0     0
+ans =
+     0
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>The MATLAB&reg; PATH<a name="60"></a></h2><p>The "Current Folder" window shows you the folder on your computer where MATLAB will search for scripts before looking in its own built-in libraries. You can display all of the paths MATLAB uses by calling</p><pre class="codeinput">path;
+</pre><pre class="codeoutput">
+		MATLABPATH
+
+	/Users/yan/Documents/MATLAB
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/demos
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/graph2d
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/graph3d
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/graphics
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/graphics/obsolete
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/plottools
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/scribe
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/scribe/obsolete
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/specgraph
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/uitools
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/uitools/obsolete
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/hardware/stubs
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/images
+	/Applications/MATLAB_R2014b.app/toolbox/local
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/optimfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/codetools
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/datafun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/datamanager
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/datastoreio
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/datatypes
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/depfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/elfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/elmat
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/funfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/general
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/guide
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/helptools
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/icons
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/iofun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/lang
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/mapreduceio
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/matfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/ops
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/polyfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/randfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/sparfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/specfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/strfun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/timefun
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/verctrl
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/testframework
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/apps
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/audiovideo
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/cefclient
+	/Applications/MATLAB_R2014b.app/toolbox/shared/comparisons
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/configtools
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/connector/connector
+	/Applications/MATLAB_R2014b.app/toolbox/hdlcoder/hdllib/ml_lib
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/supportpackagemanagement
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/imagesci
+	/Applications/MATLAB_R2014b.app/toolbox/shared/instrument
+	/Applications/MATLAB_R2014b.app/toolbox/shared/m3i
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/networklib
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/python
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/external/engines/python
+	/Applications/MATLAB_R2014b.app/toolbox/shared/advisor
+	/Applications/MATLAB_R2014b.app/toolbox/shared/asynciolib
+	/Applications/MATLAB_R2014b.app/toolbox/shared/coder/coder
+	/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/general
+	/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/graphics
+	/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/graphics/utils
+	/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/graphics/plotoptions
+	/Applications/MATLAB_R2014b.app/toolbox/shared/dastudio
+	/Applications/MATLAB_R2014b.app/toolbox/shared/hwconnectinstaller
+	/Applications/MATLAB_R2014b.app/toolbox/shared/hwconnectinstaller/common
+	/Applications/MATLAB_R2014b.app/toolbox/shared/mlreportgen/dom
+	/Applications/MATLAB_R2014b.app/toolbox/shared/mlreportgen/dom/dom
+	/Applications/MATLAB_R2014b.app/toolbox/shared/mlreportgen/dom/dom/help
+	/Applications/MATLAB_R2014b.app/toolbox/shared/multimedia
+	/Applications/MATLAB_R2014b.app/toolbox/shared/networklib
+	/Applications/MATLAB_R2014b.app/toolbox/shared/rptgen
+	/Applications/MATLAB_R2014b.app/toolbox/shared/testmeaslib/general
+	/Applications/MATLAB_R2014b.app/toolbox/shared/testmeaslib/graphics
+	/Applications/MATLAB_R2014b.app/toolbox/shared/simulink
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/system
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/timeseries
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/hds
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/toolbox_packaging
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/toolboxmanagement
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/toolstrip
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/webcam
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/webservices/restful
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/webservices
+	/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/webservices/wsdl
+</pre><p>the 'path' variable is always present while you're running MATLAB. To add a new folder (for example called 'homework4') you can call</p><pre class="codeinput">path = path(path, <span class="string">'/User/yan/Documents/homework1'</span>)
+</pre><pre class="codeoutput">Warning: Name is nonexistent or not a directory:
+/User/yan/Documents/homework1 
+path =
+/Users/yan/Documents/MATLAB:/Applications/MATLAB_R2014b.app/toolbox/matlab/demos:/Applications/MATLAB_R2014b.app/toolbox/matlab/graph2d:/Applications/MATLAB_R2014b.app/toolbox/matlab/graph3d:/Applications/MATLAB_R2014b.app/toolbox/matlab/graphics:/Applications/MATLAB_R2014b.app/toolbox/matlab/graphics/obsolete:/Applications/MATLAB_R2014b.app/toolbox/matlab/plottools:/Applications/MATLAB_R2014b.app/toolbox/matlab/scribe:/Applications/MATLAB_R2014b.app/toolbox/matlab/scribe/obsolete:/Applications/MATLAB_R2014b.app/toolbox/matlab/specgraph:/Applications/MATLAB_R2014b.app/toolbox/matlab/uitools:/Applications/MATLAB_R2014b.app/toolbox/matlab/uitools/obsolete:/Applications/MATLAB_R2014b.app/toolbox/matlab/hardware/stubs:/Applications/MATLAB_R2014b.app/toolbox/matlab/images:/Applications/MATLAB_R2014b.app/toolbox/local:/Applications/MATLAB_R2014b.app/toolbox/matlab/optimfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/codetools:/Applications/MATLAB_R2014b.app/toolbox/matlab/datafun:/Applications/MATLAB_R2014b.app/toolbox/matlab/datamanager:/Applications/MATLAB_R2014b.app/toolbox/matlab/datastoreio:/Applications/MATLAB_R2014b.app/toolbox/matlab/datatypes:/Applications/MATLAB_R2014b.app/toolbox/matlab/depfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/elfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/elmat:/Applications/MATLAB_R2014b.app/toolbox/matlab/funfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/general:/Applications/MATLAB_R2014b.app/toolbox/matlab/guide:/Applications/MATLAB_R2014b.app/toolbox/matlab/helptools:/Applications/MATLAB_R2014b.app/toolbox/matlab/icons:/Applications/MATLAB_R2014b.app/toolbox/matlab/iofun:/Applications/MATLAB_R2014b.app/toolbox/matlab/lang:/Applications/MATLAB_R2014b.app/toolbox/matlab/mapreduceio:/Applications/MATLAB_R2014b.app/toolbox/matlab/matfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/ops:/Applications/MATLAB_R2014b.app/toolbox/matlab/polyfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/randfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/sparfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/specfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/strfun:/Applications/MATLAB_R2014b.app/toolbox/matlab/timefun:/Applications/MATLAB_R2014b.app/toolbox/matlab/verctrl:/Applications/MATLAB_R2014b.app/toolbox/matlab/testframework:/Applications/MATLAB_R2014b.app/toolbox/matlab/apps:/Applications/MATLAB_R2014b.app/toolbox/matlab/audiovideo:/Applications/MATLAB_R2014b.app/toolbox/matlab/cefclient:/Applications/MATLAB_R2014b.app/toolbox/shared/comparisons:/Applications/MATLAB_R2014b.app/toolbox/matlab/configtools:/Applications/MATLAB_R2014b.app/toolbox/matlab/connector/connector:/Applications/MATLAB_R2014b.app/toolbox/hdlcoder/hdllib/ml_lib:/Applications/MATLAB_R2014b.app/toolbox/matlab/supportpackagemanagement:/Applications/MATLAB_R2014b.app/toolbox/matlab/imagesci:/Applications/MATLAB_R2014b.app/toolbox/shared/instrument:/Applications/MATLAB_R2014b.app/toolbox/shared/m3i:/Applications/MATLAB_R2014b.app/toolbox/matlab/networklib:/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/python:/Applications/MATLAB_R2014b.app/toolbox/matlab/external/engines/python:/Applications/MATLAB_R2014b.app/toolbox/shared/advisor:/Applications/MATLAB_R2014b.app/toolbox/shared/asynciolib:/Applications/MATLAB_R2014b.app/toolbox/shared/coder/coder:/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/general:/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/graphics:/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/graphics/utils:/Applications/MATLAB_R2014b.app/toolbox/shared/controllib/graphics/plotoptions:/Applications/MATLAB_R2014b.app/toolbox/shared/dastudio:/Applications/MATLAB_R2014b.app/toolbox/shared/hwconnectinstaller:/Applications/MATLAB_R2014b.app/toolbox/shared/hwconnectinstaller/common:/Applications/MATLAB_R2014b.app/toolbox/shared/mlreportgen/dom:/Applications/MATLAB_R2014b.app/toolbox/shared/mlreportgen/dom/dom:/Applications/MATLAB_R2014b.app/toolbox/shared/mlreportgen/dom/dom/help:/Applications/MATLAB_R2014b.app/toolbox/shared/multimedia:/Applications/MATLAB_R2014b.app/toolbox/shared/networklib:/Applications/MATLAB_R2014b.app/toolbox/shared/rptgen:/Applications/MATLAB_R2014b.app/toolbox/shared/testmeaslib/general:/Applications/MATLAB_R2014b.app/toolbox/shared/testmeaslib/graphics:/Applications/MATLAB_R2014b.app/toolbox/shared/simulink:/Applications/MATLAB_R2014b.app/toolbox/matlab/system:/Applications/MATLAB_R2014b.app/toolbox/matlab/timeseries:/Applications/MATLAB_R2014b.app/toolbox/matlab/hds:/Applications/MATLAB_R2014b.app/toolbox/matlab/toolbox_packaging:/Applications/MATLAB_R2014b.app/toolbox/matlab/toolboxmanagement:/Applications/MATLAB_R2014b.app/toolbox/matlab/toolstrip:/Applications/MATLAB_R2014b.app/toolbox/matlab/webcam:/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/webservices/restful:/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces:/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/webservices:/Applications/MATLAB_R2014b.app/toolbox/matlab/external/interfaces/webservices/wsdl
+</pre><pre class="codeinput">clear; clc;
+</pre><h2>Is the average matrix intertible?<a name="63"></a></h2><p>Let's generate matrices of random numbers in a loop and count how many are non-invertible (have determinants of 0)</p><pre class="codeinput">N = 10000;
+n = 5;
+counter = 0;
+<span class="keyword">for</span> k=1:N
+    A = rand(n);
+    <span class="keyword">if</span> det(A) == 0
+        counter = counter + 1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+p = counter/N
+</pre><pre class="codeoutput">p =
+     0
+</pre><p>However, let's consider, instead, matrices of random <b>integers</b></p><pre class="codeinput">MAX = 5;
+N = 10000;
+n = 5;
+counter = 0;
+<span class="keyword">for</span> k=1:N
+    A = randi(MAX, n);
+    <span class="keyword">if</span> det(A) == 0
+        counter = counter + 1;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+p = counter/N
+</pre><pre class="codeoutput">p =
+    0.0069
+</pre><p>We get some non-negligible amount.</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% EE241 Spring 2015, Tutorial 6, Feb. 27
+% In this tutorial we'll cover some of the basic use cases for MATLAB(R) in
+% linear algebra as well some basic troubleshooting.
+%
+% Off the bat, note that USC provides MATLAB for free to its students at
+% http://software.usc.edu. However! USC provides the 2013b release. If
+% you're running Mac OS X Yosemite (10.10), you should go to the mathworks
+% website (http://www.mathworks.com) and create a Mathworks account, then 
+% download MATLAB 2014b which runs on the newer version of Java.
+% "Activating" MATLAB during the installation process can be harrowing. I
+% find it easiest to just use your mathworks account. The same key USC
+% gives you for their download of 2013b should work for 2014b as well.
+
+%% The MATLAB UI
+% If you're reading this as a webpage: cool! If you want to try out the
+% commands inside this document download the tutorial file from blackboard.
+% If you open this file in MATLAB it will appear in an "Editor" window.
+% This is a window for writing and editing MATLAB scripts. In the default
+% MATLAB setup there should be a file browser on the left ("Current
+% Folder") and a variable browser on the right ("Workspace"). There should
+% also be a Command Window at the bottom. The command window is where you
+% can execute individual commands interactively, or call on scripts. It's
+% also where the output of any line without a semi-colon (;) shows up. You
+% can reorganize your workspace to accomodate what you're working on.
+%
+% Let's start by calling clear; to clear all variables from memory, and
+% clc; to clear the command window of text. Note that any number of MATLAB
+% commands can fit on the same line if they are each followed by a
+% semi-colon.
+clear; clc;
+
+
+
+%% Matrices: first-class citizens in the world of MATLAB
+% You can write a row vector by using commas
+u = [1,2,3,4]
+%%
+% You can write a column vector by using colons
+v = [1;2;3;4]
+%%
+% You can write a matrix by using a combination of both
+A = [1,2;3,4]
+%%
+% A colon between two numbers (hard-coded or variable) gives a range
+% between those numbers
+2:5
+%%
+% A set of three numbers seperate by colons gives a range with a step,
+% i.e.:
+0.1:0.2:0.95
+%%
+% Note that the result only goes to 0.9 and doesn't include 0.95. We can
+% also measure the size of matrices using the following two functions
+size(A)
+numel(A)
+%%
+% 'size(A)' gives you a vector of dimensions (in our case matrices have 2
+% dimensions), 'numel(A)' gives you the number of elements contained inside
+% A. This second one is useful if you want to know roughly how much space
+% your matrix takes up in memory.
+clear; clc;
+
+
+
+%% Extracting values
+% To extract the elements of a matrix, use parentheses
+A = [1,2;3,4];
+A(1,2)
+%%
+% The arguments are always A(row,column) However! 'row' and 'column' can be
+% vectors too! Consider first, the following matrix
+B = [1,2,3,4;5,6,7,8;9,0,1,2;3,4,5,6]
+%%
+% We can extract the last three entries of the second row by calling
+B(2,2:4)
+%%
+% We can even skip the third column by using a step
+B(2,2:2:4)
+%%
+% We can do this for all rows at once by using a range without arguments
+B(:,2:2:4)
+%%
+% By default ranges are 0:1:end and any argument we leave out is assumed to
+% take those values
+B(:,2)
+%%
+% Notice the following behavior for two ranges
+B(1:2:4,1:2:4)
+%%
+% A powerful trick for augmenting a matrix
+A = [1,2,3;4,5,6;7,8,9];
+b = [1;1;1];
+[A,b]
+[A b]
+%%
+clear; clc;
+
+
+
+%% Basic linear algebra with MATLAB
+% You can multiply matching dimension
+[1,2,3]*[1;2;3]
+[1;2;3]*[1,2,3]
+%%
+% You can easily take transposes of vectors or matrices with an apostrophe
+[1,2,3]'
+[1,2;3,4]'
+%%
+% Solving a linear system is, however, very easy
+A = [1,2,3,4;5,6,7,8;9,0,1,2;3,4,5,0]
+b = [1;2;3;4]
+x = A\b
+%%
+% If you want to see it as fractions, try
+format rat
+x
+format short
+%%
+% Notice that inv(A) gets us the same result
+C = inv(A)
+C*b
+%%
+clear; clc;
+
+
+
+%% Singular matrices
+% What happens when we consider linear systems without single solutions?
+% First, let's try a square matrix that has some free variables in rref
+A = [1,2,3;4,5,6;5,7,9]
+rref(A)
+%%
+% Note the introduction of the rref(A) function above. It works exactly
+% like you'd expect it to. Next let's choose a 'b'. To ensure Ax=b has a
+% solution, we'll just choose 'x' first
+x = [1;2;3];
+b = A*x
+%%
+% Now let's go back and solve for 'x'
+x1 = A\b
+x2 = inv(A)*b
+%%
+% Looks like the two inversion methods gave us two different solutions! You
+% should always check your solutions
+A*x2
+%%
+% And so we discard the inv(A) result.
+clear; clc;
+
+
+
+%% Wide (under-constrainted) and tall (over-constrainted) systems
+% How does MATLAB handle non-square matrices? Let's consider a wide matrix
+% (under-constrained problem) first
+A = [1,2,3,4;5,6,7,8;1,0,1,0];
+b = A*[1;0;1;0];
+x = A\b
+%%
+% Works fine! But the general solution obviously has some free variables in
+% it. Nullspace will be covered later in the course but if you're curious
+% about how to generate the other solutions just call
+x + null(A)
+%%
+% A tall matrix (over-constrained system) is
+A = [1,0,2;0,1,3;-1,1,1;1,1,5]
+b = [0;0;0;1]
+x = A\b
+%%
+% The warning generated by MATLAB should clue us into the fact that there
+% is no solution. We can just check that
+A*x
+%%
+clear; clc;
+
+
+
+%% Special matrices
+% The identity matrix (and its cousins)
+eye(2)
+eye(2,3)
+eye(3,2)
+%%
+% The all-zeros matrix
+zeros(2)
+zeros(2,3)
+zeros(3,2)
+%%
+% The all-ones matrix
+ones(2)
+ones(2,3)
+ones(3,2)
+%%
+% A matrix of uniformly distributed random numbers
+rand(3)
+%%
+% A matrix of uniformly distributed random integers from 0 to 5
+A = randi(5,3)
+%%
+% The upper-triangular portion of A
+triu(A)
+%%
+% The upper-triangular portion of A *without* the diagonal entries
+triu(A,1)
+%%
+% The lower-triangular part
+tril(A)
+%%
+% The diagonal part of A
+diag(A)
+%%
+% A diagonal matrix formed from a vector
+d = [1,2,3];
+diag(d)
+%%
+clear; clc;
+
+
+
+%% Benchmarking
+% So what's the difference between inv(A)*b and A\b? Consider:
+n = 4000; 
+Q = orth(randn(n,n));  % These four steps are
+d = logspace(0,-10,n); % designed only to cause
+A = Q*diag(d)*Q';      % trouble for MATLAB so
+x = randn(n,1);        % that it can't take shortcuts
+b = A*x;
+%%
+% Now solve the system with inv(A)*b
+tic, y = inv(A)*b; toc
+err = norm(y-x)
+res = norm(A*y-b)
+%%
+% Compared to with A\b:
+tic, z = A\b; toc
+err = norm(z-x)
+res = norm(A*z-b)
+%%
+clear; clc;
+
+
+
+%% Numerical precision
+% What's the value of 2^53 + 1 - 2^53? If you said '1', MATLAB disagrees
+2^53 + 1 - 2^53
+%%
+% Now, what's the value of 2^53 - 2^53 + 1?
+2^53 - 2^53 + 1
+%%
+% MATLAB calculates the first operator before the second and, in between,
+% incurs some errors because 2^53 is too large. Similarily
+1 - 3*(4/3 - 1)
+%%
+% Since 4/3 cannot be represented accurately in binary. Sometimes, this
+% works against you by producing '0' where there should not be one
+sqrt(1e-16 + 1) - 1
+%%
+% The function eps(x) tells us how much error there can be on a given
+% number
+eps(0)
+eps(1)
+eps(pi)
+%%
+% Let's experiment with eps() and inv()
+A = ones(5)
+inv(A)
+inv(A+eye(5)*eps(1))
+%%
+clear; clc;
+
+
+
+%% Determinants
+% MATLAB calculates the determinant using the LU decomposition we covered
+% in an earlier tutorial (optional material). Let's see the det() command
+% in action
+A = [1,2,3,4;5,6,7,8;1,0,1,0;0,1,0,2]
+det(A)
+%%
+% The determinant is a nice way to check if a matrix is invertible
+A = [1,2,3,4;5,6,7,8;0,0,0,1;0,0,0,1]
+det(A)
+%%
+% The calculation of the determinant is also susceptible to the same
+% numerical imprecision we introduced earlier
+rref(A)
+det(rref(A)+eye(4)*eps(0))
+%%
+clear; clc;
+
+
+
+%% The MATLAB(R) PATH
+% The "Current Folder" window shows you the folder on your computer where
+% MATLAB will search for scripts before looking in its own built-in
+% libraries. You can display all of the paths MATLAB uses by calling
+path;
+%%
+% the 'path' variable is always present while you're running MATLAB. To add
+% a new folder (for example called 'homework4') you can call
+path = path(path, '/User/yan/Documents/homework1')
+%%
+clear; clc;
+
+%% Is the average matrix intertible?
+% Let's generate matrices of random numbers in a loop and count how many
+% are non-invertible (have determinants of 0)
+N = 10000;
+n = 5;
+counter = 0;
+for k=1:N
+    A = rand(n);
+    if det(A) == 0
+        counter = counter + 1;
+    end
+end
+p = counter/N
+%%
+% However, let's consider, instead, matrices of random *integers*
+MAX = 5;
+N = 10000;
+n = 5;
+counter = 0;
+for k=1:N
+    A = randi(MAX, n);
+    if det(A) == 0
+        counter = counter + 1;
+    end
+end
+p = counter/N
+%%
+% We get some non-negligible amount.
+##### SOURCE END #####
+--></body></html>

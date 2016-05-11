@@ -1,0 +1,222 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#1}
+\date{Friday, Jan. 16, 2015}
+\maketitle
+
+
+
+\begin{prob}[Rapidfire review]
+\par Fill in the right-hand column below given that $A$ is a $m \times n$ matrix, $B$ is a $k \times l$ matrix, and $\vec{b}$ is a $r$-vector.
+\par \def\arraystretch{2} \begin{tabular}{|p{0.7\textwidth}|p{0.3\textwidth}|}
+\hline 				You add $3$ new constraints to the linear system described by $A$, how many constraints are there now?
+& \ifsolns		$m+3$
+\else \hspace{0.3\textwidth}
+\fi \\ \hline 		You add $3$ new constraints to the linear system described by $A$, how many variables are there now?
+& \ifsolns		$n$
+
+\fi \\ \hline 		Let $r=m$, $k=l$, and $B$ be a scalar matrix. If $\vec{x}$ is the solution to $A\vec{x} = \vec{b}$, what is the solution to $(BA)\vec{x} = B\vec{b}$?
+& \ifsolns		Still just $\vec{x}$
+
+\fi \\ \hline \end{tabular}
+
+\par Mark true or false below
+\par \def\arraystretch{2} \begin{tabular}{|p{0.7\textwidth}|p{0.3\textwidth}|}
+\hline 				$A=A^T$ always
+& \ifsolns		False
+\else \hspace{0.3\textwidth}
+\fi \\ \hline 		$AB = BA$ always
+& \ifsolns		False
+
+\fi \\ \hline 		$A(BC) = (AB)C$ always
+& \ifsolns		True	
+
+\fi \\ \hline 		$B^nB = BB^n$ always
+& \ifsolns		True
+
+\fi \\ \hline 		$BAB = AB^2$ always
+& \ifsolns		False
+
+\fi \\ \hline \end{tabular}
+\end{prob} 
+
+\vspace{0.1in}
+
+% Equivalence of simple linear systems
+\begin{prob}
+Are the following two linear systems equivalent? Hint: use the allowed manipulations of equations to transform one system into the other
+\[
+	\lb \begin{array}{lrcl}
+		\text{(1.1)}	& 2x+4y+7z+8w & = & 2 \\
+		\text{(1.2)}	&2y+4w & = & 0
+	\end{array} \right.
+	\hspace{0.65in}
+	\lb \begin{array}{lrcl}
+		\text{(2.1)}	&x+3.5z& = & 1 \\
+		\text{(2.2)}	&2y+4w & = & 0		
+	\end{array} \right.
+\]
+\end{prob} \ifsolns \begin{proof}
+Note the following
+\[
+	(1.1) = 2 \cdot (2.1) + 2 \cdot (2.2)
+	\hspace{0.3in} \text{and} \hspace{0.3in}
+	(1.2) = (2.2)
+\]
+Thus, \textbf{yes} they are equivalent.
+\end{proof}\else \vspace{1.5in} \fi
+
+
+% Scalar matrices commute with everything
+\begin{prob}
+Let $A$ be a $1000 \times 2$ matrix and let $B$ be a $1000 \times 3$ matrix. Given the dot products below, write down $C$ when $C=A^{T}B$.
+\[
+	\begin{array}{rrr}
+		\col{A}{1} \cdot \col{B}{1} = 4
+	&	\col{A}{1} \cdot \col{B}{2} = 7
+	&	\col{A}{1} \cdot \col{B}{3} = -1 \\
+		\col{A}{2} \cdot \col{B}{1} = 4
+	&	\col{A}{2} \cdot \col{B}{2} = 0
+	&	\col{A}{2} \cdot \col{B}{3} = 2
+	\end{array}
+\]
+\end{prob} \ifsolns \begin{proof}
+First we note that since $A$ is $1000 \times 2$, then $A^T$ is $2 \times 1000$ and so $A^TB$ is well-defined. Furthermore, $C=A^TB$ is of size $2 \times 3$.
+\end{proof}\else \newpage \fi
+
+
+% Scalar matrices commute with everything
+\begin{prob}
+Show that for an $n \times n$ scalar matrix $A$ and any $n \times n$ square matrix $B$
+\[
+	AB = BA
+\]
+\end{prob} \ifsolns \begin{proof} Recall that in the resulting matrix multiplication, each element can be found via
+\[
+	(AB)_{ij} = \row{A}{i} \cdot \col{B}{j}
+\]
+However, since $A$ is scalar, $\row{A}{i}$ has a specific form, i.e.:
+\[
+	\row{A}{i} = \ls 0 \; , \; 0 \; , \; \dots \; , \; \underset{i^{\text{th}}\; \text{position}}{a} \;, \; \dots \; , \; 0 \rs
+\]
+Thus, the dot product of interest becomes
+\begin{align*}
+	(AB)_{ij}
+	& = \sum_{k=1}^n \lp \row{A}{i} \rp_k \lp \col{B}{j} \rp_k \\
+	& = \sum_{k=1}^n a_{ik}b_{kj} \\
+	& = 0 \times b_{0j} + 0 \times b_{1j} + \dots + a \times b_{ij} + \dots + 0 \times b_{nj} \\
+	& = a \times b_{ij}
+\end{align*}
+Since we have that $(AB)_{ij} = a (B)_{ij}$, we know that $AB = aB$. We can perform this calculation again to find that $BA = aB$ and so $AB=BA$ for this special case.
+\end{proof}\else \vspace{2in} \fi
+
+
+% Querying a matrix oracle
+\begin{prob}[The matrix oracle]
+Consider the following two oracles for some unknown (but constant) $n \times n$ square matrix $A$
+\begin{center} \def\arraystretch{1.5} \begin{tabular}{|l|l|l|}
+	\hline
+	& Input & Output \\
+	\hline
+	Oracle 1	& $\vec{x}$ 					& $A \vec{x}$ \\
+	\hline
+	Oracle 2	& $\vec{x}, \vec{y}$	& $\vec{y}^T A \vec{x}$ \\
+	\hline
+\end{tabular} \end{center}
+\begin{enumerate}[label=(\alph*)]
+\item What are the dimensions of $\vec{x}$ and $\vec{y}$?
+\item How can we use Oracle $1$ to retrieve the $3^{\text{rd}}$ column of $A$? How can we use Oracle $2$ to retrieve the $(3,4)$ entry of $A$?
+\item How can we use Oracle $2$ to retrieve any the diagonal elements of $A$?
+\item Assuming all elements of $A$ are non-negative, how can we determine if $A$ is diagonal using only $n$ calls to Oracle $2$?
+\end{enumerate}
+\end{prob} \ifsolns \begin{proof} \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item Since $\vec{x}$ must match the $n$ columns of $A$, it is an $n$-vector. Since $\vec{y}^T$ must match the $n$ rows of $A$, $\vec{y}$ is also an $n$-vector. (Note that both are column vectors).
+\item Consider sending the vector
+\[
+	\vec{x} = \ls 0 \; , \; 0 \; , \; 1 \; , \; 0 \; , \; \dots \; , \; 0 \rs .
+\]
+Recall also the formula for the product of a matrix and vector given by
+\[
+	A \vec{x} = \sum_{i=1}^n \col{A}{i} x_i .
+\]
+In our case, since only the third element is non-zero, we get that $A \vec{x} = \col{A}{3}$ as required.
+
+To find the $(3,4)$ element, consider using
+\[
+	\vec{x} = \ls 0 \; , \; 0 \; , \; 0 \; , \; 1 \; , \; 0 \; , \; \dots \; , \; 0 \rs .
+\]
+The result of Oracle $2$ can now be written as
+\[
+	\vec{y}^T A \vec{x} = \vec{y}^T \lp A \vec{x} \rp = \vec{y}^T \col{A}{4} .
+\]
+Note that the above expression is the product of a $1 \times n$ matrix and a $n \times 1$ matrix (or vector). This is precisely the definition of dot product and we can write
+\[
+	\vec{y}^T \lp A \vec{x} \rp = \sum_{i=1}^n y_i a_{i4} .
+\]
+It remains only to use the the vector
+\[
+	\vec{y} = \ls 0 \; , \; 0 \; , \; 1 \; , \; 0 \; , \; \dots \; , \; 0 \rs
+\]
+To find that $\vec{y}^TA\vec{x} = a_{34}$.
+\item Note that, in general, the formula for the output of Oracle $2$ is
+\[
+	\vec{y}^T A \vec{x} = \sum_{ij} y_i a_{ij} x_j .
+\]
+Thus, by choosing vectors $\vec{x}$ and $\vec{y}$ that contain all $0$'s and one $1$ in a specific position, we can select out any element of the matrix $A$. In particular, we can use
+\[
+	\vec{x} = \vec{y} = \ls 0 \; , \; \dots \; , \; 0 \; , \; \underset{i^{\text{th}}\; \text{position}}{1} \; , \; 0 \; , \; \dots \; , \; 0 \rs
+\]
+to get 
+\[
+	\vec{y}^T A \vec{x} = a_{ii}
+\]
+for any $i$.
+\item In order to check that $A$ is diagonal, it suffices to check that all its \emph{off-diagonal} elements are $0$. Off-diagonal elements are those $a_{ij}$ where $i \neq j$. First, let
+\[
+	\vec{x} = \ls 0 \; , \; \dots \; , \; 0 \; , \; \underset{i^{\text{th}}\; \text{position}}{1} \;, \; 0 \; , \; \dots \; , \; 0 \rs .
+\]
+Thus, $A\vec{x} = \col{A}{i}$. Now that we have the $i^{\text{th}}$ column, we can use the following trick:
+\[
+	\boxed{\text{If \;} \sum_{j \neq i} a_{ij} = 0
+	\text{\; and \;} a_{ij} \geq 0 \; \forall \; i,j
+	\text{\; then \;} a_{ij} = 0 \; \forall \; i \neq j}
+\]
+So, how do we get the sum in the statement above using the vector $\vec{y}$? Simply choose
+\[
+	\vec{y} = \ls 1 \; , \; \dots \; , \; 1 \; , \; \underset{i^{\text{th}}\; \text{position}}{0} \;, \; 1 \; , \; \dots \; , \; 1 \rs .
+\]
+Then, $\vec{y}^TA\vec{x} = \sum_{i \neq j} a_{ij}$. If, for every value of $i$, this sum is $0$, then we know that $A$ is diagonal. In other words, we need only to call on Oracle $2$ $n$ times to fully check that $A$ is diagonal.
+\end{enumerate}
+\end{proof} \fi
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

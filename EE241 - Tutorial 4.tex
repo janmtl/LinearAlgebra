@@ -1,0 +1,492 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#4}
+\date{Friday, Feb. 6, 2015}
+\maketitle
+
+% Find the inverse using Gauss-Jordan
+\begin{prob}
+Invert the following matrix using the Gauss-Jordan method and record the elementary row operation matrices that are being applied. How can you write $A$ using these elementary matrices?
+\[
+    A = \ls \begin{array}{rrr}
+        -1 &  2  &  3 \\
+         1 &  0  &  0 \\
+        -1 &  2  &  2
+    \end{array} \rs
+\]
+\end{prob} \ifsolns \begin{proof}
+To use the Gauss-Jordan method we begin by augmenting the matrix $A$ with $I_3$ and proceed to reduced row echelon form.
+\begin{align*}
+    \ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+        -1 &  2  &  3 &  1 &  0 &  0 \\
+         1 &  0  &  0 &  0 &  1 &  0 \\
+        -1 &  2  &  2 &  0 &  0 &  1
+    \end{array} \rs \\
+%
+%
+    E_1 \ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+         1 &  0  &  0 &  0 &  1 &  0 \\
+        -1 &  2  &  3 &  1 &  0 &  0 \\
+        -1 &  2  &  2 &  0 &  0 &  1
+    \end{array} \rs
+    & E_1 = \ls \begin{array}{rrr}
+         0 &  1  &  0 \\
+         1 &  0  &  0 \\
+         0 &  0  &  1
+    \end{array} \rs \\
+%
+%
+    E_2E_1 \ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+         1 &  0  &  0 &  0 &  1 &  0 \\
+         0 &  2  &  3 &  1 &  1 &  0 \\
+        -1 &  2  &  2 &  0 &  0 &  1
+    \end{array} \rs
+    & E_2 = \ls \begin{array}{rrr}
+         1 &  0  &  0 \\
+         1 &  1  &  0 \\
+         0 &  0  &  1
+    \end{array} \rs \\
+%
+%
+    E_3E_2E_1 \ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+         1 &  0  &  0 &  0 &  1 &  0 \\
+         0 &  2  &  3 &  1 &  1 &  0 \\
+         0 &  2  &  2 &  0 &  1 &  1
+    \end{array} \rs
+    & E_3 = \ls \begin{array}{rrr}
+         1 &  0  &  0 \\
+         0 &  1  &  0 \\
+         1 &  0  &  1
+    \end{array} \rs \\    
+%
+%
+    E_4E_3E_2E_1\ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+         1 &  0  &  0 &  0 &  1 &  0 \\
+         0 &  2  &  3 &  1 &  1 &  0 \\
+         0 &  0  & -1 & -1 &  0 &  1
+    \end{array} \rs
+    & E_4 = \ls \begin{array}{rrr}
+         1 &  0  &  0 \\
+         0 &  1  &  0 \\
+         0 & -1  &  1
+    \end{array} \rs \\
+%
+%
+    E_5E_4E_3E_2E_1\ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+         1 &  0  &  0 &  0 &  1 &  0 \\
+         0 &  2  &  3 &  1 &  1 &  0 \\
+         0 &  0  &  1 &  1 &  0 & -1
+    \end{array} \rs
+    & E_5 = \ls \begin{array}{rrr}
+         1 &  0  &  0 \\
+         0 &  1  &  0 \\
+         0 &  0  & -1
+    \end{array} \rs \\
+%
+%
+    E_6E_5E_4E_3E_2E_1\ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+         1 &  0  &  0 &  0 &  1 &  0 \\
+         0 &  2  &  0 & -2 &  1 &  3 \\
+         0 &  0  &  1 &  1 &  0 & -1
+    \end{array} \rs
+    & E_6 = \ls \begin{array}{rrr}
+         1 &  0  &  0 \\
+         0 &  1  & -3 \\
+         0 &  0  &  1
+    \end{array} \rs \\
+%
+%
+    E_7E_6E_5E_4E_3E_2E_1\ls A | I_3 \rs & = \ls \begin{array}{rrr|rrr}
+         1 &  0  &  0 &  0 &  1 &  0 \\
+         0 &  1  &  0 & -1 &1/2 &3/2 \\
+         0 &  0  &  1 &  1 &  0 & -1
+    \end{array} \rs
+    & E_7 = \ls \begin{array}{rrr}
+         1 &  0  &  0 \\
+         0 &1/2  &  0 \\
+         0 &  0  &  1
+    \end{array} \rs \\
+\end{align*}
+Thus
+\[
+    A^{-1} = E_7E_6E_5E_4E_3E_2E_1 = \ls \begin{array}{rrr}
+         0 &  1 &  0 \\
+        -1 &1/2 &3/2 \\
+         1 &  0 & -1
+    \end{array} \rs .
+\]
+We can also check that
+\[
+    A = E_1^{-1}E_2^{-1}E_3^{-1}E_4^{-1}E_5^{-1}E_6^{-1}E_7^{-1} .
+\]
+Note that these last two equations automatically imply that $A^{-1}A = AA^{-1} = I_3$.
+\end{proof}\else \newpage \fi
+
+
+% LU decomposition speed-ups
+\begin{prob}
+LU decomposition is a technique that speeds up the process of repeatedly solving $A\vec{x}=\vec{b}$ for multiple instances of $\vec{b}$. The key to LU decomposition is to find a lower triangular matrix $L$ and an upper triangular matrix $U$ such that $A=LU$. These matrices actually appear quite naturally during the Gauss-Jordan process. Consider
+\[
+	A
+	=
+	\ls \begin{array}{ccc}
+		1&4&5 \\
+		4&18&26\\
+		3&16&30
+	\end{array} \rs .
+\]
+\begin{enumerate}[label=(\alph*)]
+\item Perform the Gauss-Jordan method on $\ls A | I_3 \rs$ but stop at \emph{row echelon form} instead of \emph{reduced row echelon form}. Use the matrices you've found to write down $L$ and $U$.
+\item Use the LU factors to solve $A\vec{x}=\vec{b}$ and $A\vec{y} = \vec{c}$, where
+\[
+	\vec{b}
+	=
+	\ls \begin{array}{c}
+		6 \\
+		0 \\
+		-6
+	\end{array} \rs
+	\hspace{0.5in}
+	\vec{c}
+	=
+	\ls \begin{array}{c}
+		6 \\
+		6 \\
+		12
+	\end{array} \rs
+\]
+\item Use the LU factors to determine $A^{-1}$.
+\end{enumerate}
+\end{prob} \ifsolns \begin{proof} \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item
+We'll use elementary matrices to keep track of the operations we perform. At first, we begin as with Gaussian elimination and reduce the lower-left entries of $A$,
+\[ 
+	E_1A = 
+	\ls \begin{array}{ccc}
+		1&4&5 \\
+		0&2&6\\
+		3&16&30
+	\end{array} \rs
+	\hspace{0.5in} \mathrm{where} \hspace{0.5in}
+	E_1 = 
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		-4 & 1& 0\\
+		 0 & 0& 1
+	\end{array} \rs .
+\]
+Next, the third row,
+\[ 
+	E_2 E_1A = 
+	\ls \begin{array}{ccc}
+		1&4&5 \\
+		0&2&6\\
+		0&4&15
+	\end{array} \rs
+	\hspace{0.5in} \mathrm{where} \hspace{0.5in}
+	E_2 = 
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 0 & 1& 0\\
+		-3 & 0& 1
+	\end{array} \rs .
+\]
+And the third row second column,
+\[ 
+	E_3 E_2 E_1A = 
+	\ls \begin{array}{ccc}
+		1&4&5 \\
+		0&2&6\\
+		0&0&3
+	\end{array} \rs
+	\hspace{0.5in} \mathrm{where} \hspace{0.5in}
+	E_3 = 
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 0 & 1& 0\\
+		 0 &-2& 1
+	\end{array} \rs .
+\]
+In this way we've found the $U$ part of the LU decomposition to be $E_3E_2E_1A$. Note that
+\[ A = E_1^{-1} E_2^{-1}E_3^{-1} E_3E_2E_1 A = \lp E_3^{-1} E_2^{-1}E_3^{-1} \rp U . \]
+Note two things: First, the inverse of each lower-triangular matrix $E_{1,2,3}$ is itself lower-triangular. Second, if $\lp E_1^{-1} E_2^{-1}E_3^{-1} \rp$ is the product of lower-triangular matrices, then it is itself lower-triangular as well and therefore serves as our $L$ matrix. Finally,
+\[ 
+	L = E_1^{-1} E_2^{-1}E_3^{-1} =
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 0 & 1& 0\\
+		 0 & 2& 1
+	\end{array} \rs
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 0 & 1& 0\\
+		 3 & 0& 1
+	\end{array} \rs
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 4 & 1& 0\\
+		 0 & 0& 1
+	\end{array} \rs
+	= 
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 4 & 1& 0\\
+		 3 & 2& 1
+	\end{array} \rs	
+\]
+and
+\[ 
+	A = \ls \begin{array}{ccc}
+		1&4&5 \\
+		4&18&26\\
+		3&16&30
+	\end{array} \rs
+	= LU
+	= \ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 4 & 1& 0\\
+		 3 & 2& 1
+	\end{array} \rs
+	\ls \begin{array}{ccc}
+		1&4&5 \\
+		0&2&6\\
+		0&0&3
+	\end{array} \rs
+\]
+
+\item In solving $A \vec{x} = \vec{b}$ we break up the solution into two parts, namely $U \vec{x} = L^{-1} \vec{b}$. Computing $L \vec{b}$ is simple
+\[ 
+	L^{-1} \vec{b} = E_3E_2E_1 \vec{b}
+	= \ls \begin{array}{c}
+		6 \\
+		-24 \\
+		24
+	\end{array} \rs
+\]
+since we just perform on $b$ the same operations we performed on $A$ originally. The $U \vec{x}$ part is now just back-substitution,
+\[ 
+	U \vec{x}
+	= \ls \begin{array}{ccc}
+		1&4&5 \\
+		0&2&6\\
+		0&0&3
+	\end{array} \rs
+	\ls \begin{array}{c}
+		\\
+		\vec{x} \\
+		\;
+	\end{array} \rs
+	= \ls \begin{array}{c}
+		6 \\
+		-24 \\
+		24
+	\end{array} \rs
+	\hspace{0.5in} \Longrightarrow \hspace{0.5in}
+	\vec{x} = \ls \begin{array}{c}
+		110 \\
+		-36 \\
+		8
+	\end{array} \rs
+\]
+Similarly for $\vec{c}$ we find
+\[ 
+	L^{-1} \vec{c}
+	= \ls \begin{array}{c}
+		6 \\
+		-18 \\
+		30
+	\end{array} \rs
+	\hspace{0.5in} \mathrm{and} \hspace{0.5in} 
+	\vec{x} = U^{-1} \lp L^{-1} \vec{c} \rp
+	= \ls \begin{array}{c}
+		112 \\
+		-39 \\
+		10
+	\end{array} \rs .
+\]
+
+\item First, note that $A^{-1} = \lp LU \rp^{-1} = U^{-1} L^{-1}$ and we already have $L^{-1}$. Now we must only find $U^{-1}$ and we can easily compute $A^{-1}$. This can be easily done by finding solutions to the three equations
+\[ 
+	U \vec{x}
+	= \ls \begin{array}{c}
+		0 \\
+		0 \\
+		1
+	\end{array} \rs
+	\hspace{0.5in}
+	U \vec{x}
+	= \ls \begin{array}{c}
+		0 \\
+		1 \\
+		0
+	\end{array} \rs
+	\hspace{0.5in}
+	U \vec{x}
+	= \ls \begin{array}{c}
+		1 \\
+		0 \\
+		0
+	\end{array} \rs
+\]
+the solutions will each yield the third, second, and first columns of $U$. In the first case, $\vec{x} = [7/3,-1,1/3]^T$ by back-substitution. In the second case $\vec{x} = [-2,1/2,0]^T$, and in the last case $\vec{x} = [1,0,0]^T$ and we have found all of the columns of $U^{-1}$. Now computing $A^{-1}$ we find
+\[ 
+	A^{-1} = U^{-1} L^{-1} = 
+	\ls \begin{array}{ccc}
+		 1 & 0& 0 \\
+		 -4 & 1& 0\\
+		 5 & -2& 1
+	\end{array} \rs
+	\ls \begin{array}{ccc}
+		 1 & -2& 7/3 \\
+		 0 & 1/2& -1\\
+		 0 & 0& 1/3
+	\end{array} \rs
+	= 
+	\ls \begin{array}{ccc}
+		 62/3 & -20/3& 7/3 \\
+		 -7 & 5/2& -1\\
+		 5/3 & -2/3& 1/3
+	\end{array} \rs
+\]
+\end{enumerate}
+\end{proof}\else \newpage \mbox{} \newpage \fi
+
+
+\begin{prob}[Optional]
+Use Gauss-Jordan method to find the $4 \times 2$ matrix $B$ satisfying
+\[
+	\ls \begin{array}{cccc}
+		1&2&3&4 \\
+		2&4&2&2 \\
+		3&2&1&1 \\
+		1&2&0&0
+	\end{array} \rs 
+	\cdot B
+	=
+	\ls \begin{array}{cc}
+		50&60 \\
+		38&48 \\
+		21&28 \\
+		7&10
+	\end{array} \rs
+\]
+\end{prob} \ifsolns \begin{proof} To use Gauss-Jordan method, we set up our augmented matrix (augmented by $2$ columns instead of the usual $1$),
+\[
+	\ls \begin{array}{cccc|cc}
+		1&2&3&4 & 50&60\\
+		2&4&2&2 & 38&48\\
+		3&2&1&1 & 21&28\\
+		1&2&0&0 & 7&10
+	\end{array} \rs 
+	\begin{array}{c} 
+		\\
+		\overset{r_2 - 2r_1}{\longrightarrow} \\
+		\overset{r_3 - 3r_1}{\longrightarrow} \\
+		\overset{r_4 - r_1}{\longrightarrow} \\
+	\end{array}
+	\ls \begin{array}{cccc|cc}
+		1& 2& 3& 4   &  50&60\\
+		0& 0&-4&-6   & -62&-72\\
+		0&-4&-8&-11 & -129&-152\\
+		0& 0&-3&-4   & -43&-50
+	\end{array} \rs 
+\]
+\[
+	\begin{array}{c} 
+		\\
+		\overset{r_2 \leftrightarrow r_3}{\longrightarrow} \\
+		\overset{r_3 \leftrightarrow r_2}{\longrightarrow} \\
+		\\
+	\end{array}
+	\ls \begin{array}{cccc|cc}
+		1& 2& 3& 4   &  50&60\\
+		0&-4&-8&-11 & -129&-152\\
+		0& 0&-4&-6   & -62&-72\\
+		0& 0&-3&-4   & -43&-50
+	\end{array} \rs 
+	\begin{array}{c} 
+		\\
+		\overset{r_2/(-4)}{\longrightarrow} \\
+		\overset{r_3/(-4)}{\longrightarrow} \\
+		\\
+	\end{array}
+	\ls \begin{array}{cccc|cc}
+		1& 2& 3& 4   &  50&60\\
+		0&1&2&2.75 & 32.25&38\\
+		0& 0&1&1.5   & 15.5&18\\
+		0& 0&-3&-4   & -43&-50
+	\end{array} \rs 
+\]
+\[
+	\begin{array}{c} 
+		\\
+		\\
+		\\
+		\overset{r_4 + 3r_3}{\longrightarrow} \\
+	\end{array}
+	\ls \begin{array}{cccc|cc}
+		1& 2& 3& 4   &  50&60\\
+		0&1&2&2.75 & 32.25&38\\
+		0& 0&1&1.5   & 15.5&18\\
+		0& 0&0&0.5   & 3.5&4
+	\end{array} \rs 
+	\begin{array}{c} 
+		\overset{r_1-8r_4}{\longrightarrow} \\
+		\overset{r_2-5.5r_4}{\longrightarrow} \\
+		\overset{r_3-3r_4}{\longrightarrow} \\
+		\overset{2r_4}{\longrightarrow} \\
+	\end{array}
+	\ls \begin{array}{cccc|cc}
+		1&2&3&0 &22&28\\
+		0&1&2&0 &13&16\\
+		0&0&1&0 &5&6\\
+		0&0&0&1 &7&8
+	\end{array} \rs 
+\]
+\[
+	\begin{array}{c} 
+		\overset{r_1-3r_3}{\longrightarrow} \\
+		\overset{r_2-2r_3}{\longrightarrow} \\
+		\\
+		\\
+	\end{array}
+	\ls \begin{array}{cccc|cc}
+		1&2&0&0 &7&10\\
+		0&1&0&0 &3&4\\
+		0&0&1&0 &5&6\\
+		0&0&0&1 &7&8
+	\end{array} \rs 
+	\begin{array}{c} 
+		\overset{r_1-2r_2}{\longrightarrow} \\
+		\\
+		\\
+		\\
+	\end{array}
+	\ls \begin{array}{cccc|cc}
+		1&0&0&0 &1&2\\
+		0&1&0&0 &3&4\\
+		0&0&1&0 &5&6\\
+		0&0&0&1 &7&8
+	\end{array} \rs 
+\]
+Thus
+\[
+    B = \ls \begin{array}{cc}
+		1&2\\
+		3&4\\
+		5&6\\
+		7&8
+	\end{array} \rs 
+\]
+\end{proof}\else \newpage \fi
+
+
+\end{document}

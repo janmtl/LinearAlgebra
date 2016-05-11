@@ -1,0 +1,272 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#2}
+\date{Friday, Jan. 23, 2015}
+\maketitle
+
+%Solve a linear system
+\begin{prob}[Balancing chemical equations]
+We can use linear systems to balance chemical equations. Consider the ``skeleton" equation below
+\[
+    \mathbf{HgS} + \mathbf{Cl^-} + \mathbf{NO_3^-} + \mathbf{H^+}  \rightarrow  \mathbf{HgCl_4^{2-}} + \mathbf{NO_2} + \mathbf{S} + \mathbf{H_2O}
+\]
+In order to \emph{balance} this equation, we must choose coefficient for each of the molecules such that the number of each atoms of each element on either side of the equation is the same. First, let's add the coefficients in the equation above,
+\[
+    a\mathbf{HgS} + b\mathbf{Cl^-} + c\mathbf{NO_3^-} + d\mathbf{H^+}  \rightarrow w\mathbf{HgCl_4^{2-}} + x\mathbf{NO_2} + y\mathbf{S} + z\mathbf{H_2O} .
+\]
+Construct a linear system with one equation per element ($Hg$, $S$, $Cl$, $N$, $O$, and $H$) and find a solution such that $a$, $b$, $c$, $d$, $w$, $x$, $y$, and $z$ are integers. Recall that the subscript on an element symbol is the number of atoms of that element in the molecule. Additionally, the number of charges on both sides of the equation must be equal. You can count the charges by looking at the superscripts on each atom.
+\end{prob} \ifsolns \begin{proof}
+Counting each element we can create the six element equations and one charge equation
+\[
+    \lb \begin{array}{lcrl}
+        (\mathbf{Hg})   & \hspace{0.1in}  & a &=w \\
+        (\mathbf{S})    & \hspace{0.1in}  & a &=y \\
+        (\mathbf{Cl})   & \hspace{0.1in}  & b &=4w \\
+        (\mathbf{N})    & \hspace{0.1in}  & c &=x \\
+        (\mathbf{O})    & \hspace{0.1in}  & 3c &= 2x+z \\
+        (\mathbf{H})    & \hspace{0.1in}  & d &= 2z \\
+        (\mathbf{\pm})  & \hspace{0.1in}  & -b-c+d &= -2w
+    \end{array} \right.
+    \hspace{0.25in} \Rightarrow \hspace{0.25in}
+    \lb \begin{array}{lcrl}
+        (\mathbf{Hg})   & \hspace{0.1in}  & a-w       &=0 \\
+        (\mathbf{S})    & \hspace{0.1in}  & a-y       &=0 \\
+        (\mathbf{Cl})   & \hspace{0.1in}  & b-4w      &=0 \\
+        (\mathbf{N})    & \hspace{0.1in}  & c-x       &=0 \\
+        (\mathbf{O})    & \hspace{0.1in}  & 3c-2x-z   &=0 \\
+        (\mathbf{H})    & \hspace{0.1in}  & d-2z      &=0 \\
+        (\mathbf{\pm})  & \hspace{0.1in}  & -b-c+d+2w &=0
+    \end{array} \right.
+\]
+We can start to solve this system by using a few substitutions. First, we can eliminate $w$ and $y$ by replacing them by $a$ and we can eliminate $x$ by replacing it by $c$ to get
+\[
+    \lb \begin{array}{lcrl}
+        (\mathbf{Cl})   & \hspace{0.05in}  & b-4a      &=0 \\
+        (\mathbf{O})    & \hspace{0.05in}  & 3c-2c-z   &=0 \\
+        (\mathbf{H})    & \hspace{0.05in}  & d-2z      &=0 \\
+        (\mathbf{\pm})  & \hspace{0.05in}  & -b-c+d+2a &=0
+    \end{array} \right.
+    \hspace{0.1in} \Rightarrow \hspace{0.1in}
+    \lb \begin{array}{lcrl}
+        (\mathbf{Cl})   & \hspace{0.05in}  & b-4a      &=0 \\
+        (\mathbf{O})    & \hspace{0.05in}  & c-z       &=0 \\
+        (\mathbf{H})    & \hspace{0.05in}  & d-2z      &=0 \\
+        (\mathbf{\pm})  & \hspace{0.05in}  & -b-c+d+2a &=0
+    \end{array} \right.
+\]
+We can replace $z$ by $c$ and eliminate the $(\mathbf{O})$ equation. 
+\[
+    \lb \begin{array}{lcrl}
+        (\mathbf{Cl})   & \hspace{0.05in}  & b-4a      &=0 \\
+        (\mathbf{H})    & \hspace{0.05in}  & d-2c      &=0 \\
+        (\mathbf{\pm})  & \hspace{0.05in}  & -b-c+d+2a &=0
+    \end{array} \right.
+\]
+Now we can subtract $(\mathbf{H})$ from $(\mathbf{\pm})$ to get
+\[
+    \lb \begin{array}{rl}
+        b-4a    &=0 \\
+        d-2c    &=0 \\
+        -b+c+2a &=0
+    \end{array} \right.
+    \hspace{0.1in} \Rightarrow \hspace{0.1in}
+    \lb \begin{array}{rl}
+        b-4a &=0 \\
+        d-2c &=0 \\
+        c-2a &=0
+    \end{array} \right.
+    \hspace{0.1in} \Rightarrow \hspace{0.1in}
+    \lb \begin{array}{rl}
+        b-4a &=0 \\
+        c-2a &=0 \\
+        d-4a &=0
+    \end{array} \right.
+\]
+We now have our linear system in a much better form. We can simply choose a value for $a$ such that $b$, $c$, and $d$ are integers and then substitute the appropriate values into $w$, $x$, $y$, and $z$ as well. For the purpose of keeping our chemical equation legible, we should choose the smallest possible $a$ such that all the other coefficients are still integers. Thus, choose $a=1$ then,
+\[
+    a = 1 \; , \;
+    b = 4 \; , \;
+    c = 2 \; , \;
+    d = 4 \; , \;
+    w = 1 \; , \;
+    x = 2 \; , \;
+    y = 1 \; , \;
+    z = 2 \; , \;
+\]
+Altogether, the balanced chemical equation is
+\[
+    \mathbf{HgS} + 4\mathbf{Cl^-} + 2\mathbf{NO_3^-} + 4\mathbf{H^+}  \rightarrow \mathbf{HgCl_4^{2-}} + 2\mathbf{NO_2} + \mathbf{S} + 2\mathbf{H_2O} .
+\]
+\end{proof}\else \newpage \fi
+
+%Solve a linear system with all integer coeffs
+\begin{prob} Solve the following linear system
+\[
+	\lb \begin{array}{rcrcrlp{1in}l}
+		2x &+&  3y &+&  z &= 6 &\mbox{}& (1) \\
+		6x &+& 10y &+& 5z &=21 &\mbox{}& (2) \\ 
+		4x &+&  8y &+& 9z &=21 &\mbox{}& (3) \\ 
+	\end{array} \right.
+\]
+\end{prob} \ifsolns \begin{proof}
+First, let's subtract $3$ times the first equation from the second and $2$ times the first equation from the third. We can denote this operation as
+\[
+	\lb \begin{array}{rcrcrlp{1in}l}
+		2x &+&  3y &+&  z &= 6 &\mbox{}& (1) \\
+		   & &   y &+& 2z &= 3 &\mbox{}& (2) \Leftarrow (2) - 3 \cdot (1) \\ 
+		   & &  2y &+& 7z &= 9 &\mbox{}& (3) \Leftarrow (3) - 2 \cdot (1)	 \\ 
+	\end{array} \right.
+\]
+Now we can eliminate $y$ from $(1)$,
+\[
+	\lb \begin{array}{rcrcrlp{1in}l}
+		2x &+&  3y &+&  z &= 6 &\mbox{}& (1) \\
+		   & &   y &+& 2z &= 3 &\mbox{}& (2) \\
+		   & &     & & 3z &= 3 &\mbox{}& (3) \Leftarrow (3) - 2 \cdot (2)	 \\
+	\end{array} \right.
+\]
+Our equations are now in a form where we can use \emph{back-substitution} to solve for $x$, $y$, $z$,
+\begin{align*}
+	& \lb \begin{array}{rcrcrlp{1in}l}
+		2x &+&  3y &+&  z &= 6 &\mbox{}& (1) \\
+		   & &   y &+& 2z &= 3 &\mbox{}& (2) \\
+		   & &     & &  z &= 1 &\mbox{}& (3) \\
+	\end{array} \right. \\
+	& \lb \begin{array}{rcrcrlp{1in}l}
+		2x &+&  3y &+&  1 &= 6 &\mbox{}& (1) \Leftarrow (z=1)\\
+		   & &   y &+&  2 &= 3 &\mbox{}& (2) \Leftarrow (z=1)\\
+		   & &     & &  z &= 1 &\mbox{}& (3) \\
+	\end{array} \right. \\
+	& \lb \begin{array}{rcrcrlp{1in}l}
+		2x &+&  3y & &    &= 5 &\mbox{}& (1) \\
+		   & &   y & &    &= 1 &\mbox{}& (2) \\
+		   & &     & &  z &= 1 &\mbox{}& (3) \\
+	\end{array} \right. \\
+	& \lb \begin{array}{rcrcrlp{1in}l}
+		2x &+&   3 & &    &= 5 &\mbox{}& (1) \Leftarrow (y=1)\\
+		   & &   y & &    &= 1 &\mbox{}& (2) \\
+		   & &     & &  z &= 1 &\mbox{}& (3) \\
+	\end{array} \right. \\
+	& \lb \begin{array}{rcrcrlp{1in}l}
+		 x & &     & &    &= 1 &\mbox{}& (1) \\
+		   & &   y & &    &= 1 &\mbox{}& (2) \\
+		   & &     & &  z &= 1 &\mbox{}& (3) \\
+	\end{array} \right.
+\end{align*}
+Thus $x=y=z=1$.
+\end{proof}\else \newpage \fi
+
+%Linear system where b = [a,b,c] and A=[1;2;3,2;4;6,3;6;9]
+\begin{prob} Solve the linear system below. Does a solution even exist? How would you have to change the right-hand side of the equations below to make the system solveable?
+\[
+	\lb \begin{array}{rcrcrlp{1in}l}
+		 x &+&  2y &+& 3z &= 1 &\mbox{}& (1) \\
+		2x &+&  4y &+& 6z &= 2 &\mbox{}& (2) \\ 
+		3x &+&  6y &+& 9z &= 2 &\mbox{}& (3) \\ 
+	\end{array} \right.
+\]
+\end{prob} \ifsolns \begin{proof}
+Begin as before, by eliminating $x$ from equations $(2)$ and $(3)$
+\[
+	\lb \begin{array}{rcrcrlp{1in}l}
+		 x &+&  2y &+& 3z &= 1 &\mbox{}& (1) \\
+		   & &     & &  0 &= 0 &\mbox{}& (2) \Leftarrow (2) - 2 \cdot (1) \\
+		   & &     & &  0 &=-1 &\mbox{}& (3) \Leftarrow (3) - 3 \cdot (1) \\
+	\end{array} \right.
+\]
+We have a contradiction in $(3)$! Thus, the system as it is written is not solveable. However, we can alter the right-hand side of the equations. In particular, let's add $1$ to the right-hand side of the reduced version of equation $(3)$ and replay our operations in reverse, that is, let
+\[
+	\lb \begin{array}{rcrcrlp{1in}l}
+		 x &+&  2y &+& 3z &= 1 &\mbox{}& (1) \\
+		   & &     & &  0 &= 0 &\mbox{}& (2) \\
+		   & &     & &  0 &= 0 &\mbox{}& (3) \\
+	\end{array} \right.
+\]
+But now we reverse our original operations to recover the original version of the left-hand side.
+\[
+	\lb \begin{array}{rcrcrlp{1in}l}
+		 x &+&  2y &+& 3z &= 1 &\mbox{}& (1) \\
+		2x &+&  4y &+& 6z &= 2 &\mbox{}& (2) \Leftarrow (2) + 2 \cdot (1)\\ 
+		3x &+&  6y &+& 9z &= 3 &\mbox{}& (3) \Leftarrow (2) + 3 \cdot (1)\\ 
+	\end{array} \right.
+\]
+In fact, \emph{any} multiple of the coefficients $[1,2,3]$ for the right-hand side would make this system solveable.
+\end{proof}\else \newpage \fi
+
+
+
+%Solve for B where AB=C
+\begin{prob} Find a matrix $B$ such that
+\[
+    AB = \ls \begin{array}{rrrr}
+         2&-1& 0& 2\\
+         1& 2&-3& 3\\
+         0& 2&-3&-3\\
+         3&-1& 0& 0
+    \end{array} \rs B
+     = \ls \begin{array}{rr}
+        -1& 1\\
+        -9&-6\\
+         3& 4\\
+         3& 7
+     \end{array} \rs = C
+\]
+\end{prob} \ifsolns \begin{proof}
+To solve the above system recall the following identities, first let $\vec{a}_1, \dots, \vec{a}_n$ be the column vectors of $A$, let $\vec{b}_1, \dots, \vec{b}_n$ be the column vectors of $B$, and let $\vec{c}_1, \dots, \vec{c}_n$ be the column vectors of $C$, then
+\[
+    A\vec{x} = \sum_{i=1}^n x_i \vec{a}_i
+\]
+and
+\[
+    AB = \ls \begin{array}{c|c|c} 
+        \displaystyle\sum_{i=1}^n \lp \vec{b}_1 \rp_i \vec{a}_i
+        & \dots &
+        \displaystyle\sum_{i=1}^n \lp \vec{b}_n \rp_i \vec{a}_i
+    \end{array} \rs
+\]
+Now if we match the columns of $AB$ to the columns $C$ we find that we actually have $n$ seperate linear systems
+\[
+    \lb \begin{array}{rl}
+        \displaystyle\sum_{i=1}^n \lp \vec{b}_1 \rp_i \vec{a}_i &= \vec{c}_1 \\
+        \vdots \\
+        \displaystyle\sum_{i=1}^n \lp \vec{b}_n \rp_i \vec{a}_i &= \vec{c}_n
+    \end{array} \right.
+\]
+In our case we get two systems, let's solve the first of these
+\[
+      \ls \begin{array}{r} 2 \\ 1 \\ 0 \\ 3 \end{array} \rs b_{11}
+    + \ls \begin{array}{r}-1 \\ 2 \\ 2 \\-1 \end{array} \rs b_{21}
+    + \ls \begin{array}{r} 0 \\-3 \\-3 \\ 0 \end{array} \rs b_{31}
+    + \ls \begin{array}{r} 2 \\ 3 \\-3 \\ 0 \end{array} \rs b_{41}
+    = \ls \begin{array}{r}-1 \\-9 \\ 3 \\ 3 \end{array} \rs
+\]
+which is equivalent to
+\[
+	\lb \begin{array}{rcrcrcrlp{1in}l}
+		 2b_{11} &-&  b_{21} & &         &+& 2b_{41} &=-1 &\mbox{}& (1) \\
+		  b_{11} &+& 2b_{21} &-& 3b_{31} &+& 3b_{41} &=-9 &\mbox{}& (2) \\
+		         & & 2b_{21} &-& 3b_{31} &-& 3b_{41} &= 3 &\mbox{}& (3) \\
+		 3b_{11} &-& 1b_{21} & &         & &         &= 3 &\mbox{}& (4)
+	\end{array} \right.
+\]
+The solution to this system and the second system (which solves $\vec{b}_2$) is
+\[
+    B = \ls \begin{array}{c|c} \vec{b}_1 & \vec{b}_2 \end{array} \rs
+      = \ls \begin{array}{rr}
+         0& 2\\
+        -3&-1\\
+        -1& 0\\
+        -2&-2
+      \end{array} \rs
+\]
+\end{proof}\else \newpage \fi
+
+
+\end{document}

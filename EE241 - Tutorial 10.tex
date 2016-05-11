@@ -1,0 +1,89 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#10}
+\date{Friday, April 3, 2015}
+\maketitle
+
+\begin{prob}[Linear independence]
+Which of the following sets are linearly independent?
+\begin{enumerate}[label=(\alph*)]
+\item $\lb 0, 0, 0, 0, 0, 0 \rb$
+\item $\lb 0, 1, 2, 3, 4, 5 \rb$
+\item $\lb [1,1], [1,-1] \rb$
+\item $\lb [2,5,4], [3,4,5], [6,4,3], [1,0,0] \rb$
+\item $\lb [12,-11,7,-8], [8,-12,0,-10], [-4,-3,-9,-4] \rb$
+\end{enumerate}
+\end{prob} \ifsolns \begin{proof}
+Recall the definition of linear independence: There is no non-trivial linear combination of the $\vec{v}_1 \dots \vec{v}_k$ that yields the zero vector. In other words, there are \emph{no} non-zero $c_1, \dots, c_k$ such that
+\[
+  c_1 \vec{v}_1 + \dots c_k \vec{v}_k = 0
+\]
+\begin{enumerate}[label=(\alph*)]
+\item This set is \textbf{linearly dependent} since \emph{every} choice of linear combination yields $0$.
+\item This set is \textbf{linearly dependent} since $1 \cdot 1 + (-1/2) \cdot 2 = 0$ 
+\item For only two vectors it is always each to check that no $c_1, c_2$ exist such that
+\[
+  c_1 [1,1] = -c_2 [1,-1]
+\]
+\item For multiple and higher-dimensional vectors, it is best to cast the question as a matrix problem. Let $\vec{c} = [c_1, \dots, c_k]$, let also $A$ be the matrix formed by using $\vec{v}_1, \dots, \vec{v}_k$ as its columns, then if there exists a non-zero $\vec{c}$ such that $A \vec{c} = \vec{0}$, the set is linearly dependent. In other words, the set is linearly dependent if 
+\item $\lb [12,-11,7,-8], [8,-12,0-10], [-4,-3,-9,-4] \rb$
+\end{enumerate}
+\end{proof}\else \vspace{3in} \fi
+
+
+\begin{prob}[Nullspace bound]
+Write a lower bound for the dimension of the nullspace of a $m \times n$ matrix where $m \leq n$.
+\end{prob} \ifsolns \begin{proof}
+For an $m \times n$ matrix, $rank(A)$ (the number of pivots in reduced row-echelon form) is at most $\min \lb m,n \rb$, since there cannot be more pivots than rows or columns. The dimension of the nullspace is given by the number of free variables in the reduced row-echelon form of the matrix. The number of free variables is $n - rank(A)$. Thus if $rank(A) \leq \min \lb m,n \rb$ then $\text{nullity} (A) \geq n - \min \lb m,n \rb$ and since $m \leq n$ then
+\[
+  \text{nullity} (A) \rp \geq n - m
+\]
+\end{proof}\else \newpage \fi
+
+
+\begin{prob}[From practice midterm 2]
+Consider the space $P_3$ of all polynomials of degree less than or equal to $3$, and the following set of polynomials:
+\[
+  S = 􏰀\lb p_1(t) = t^3/6 + t^2/2 + t + 1, p_2(t) = t^2/2 + t + 1, p_3(t) = t + 1, p4(t) = 1􏰁 \rb .
+\]
+Show that $S$ is a basis for $P_3$.
+\end{prob} \ifsolns \begin{proof}
+For $S$ to be a basis for $P_3$ it must satisfy two conditions: (a) that $S$ be linearly independent and (b) that $S$ span $P_3$. Let's start with (a). Consider representing the polynomials as vectors according to their coefficients, i.e.:
+\begin{align*}
+  \vec{p}_1 & = \ls 1/6, 1/2, 1, 1 \rs \\
+  \vec{p}_2 & = \ls 0, 1/2, 1, 1 \rs \\
+  \vec{p}_3 & = \ls 0, 0, 1, 1 \rs \\
+  \vec{p}_4 & = \ls 0, 0, 0, 1 \rs
+\end{align*}
+We can now form the matrix with these vectors as its columns
+\[
+  A = \ls \vec{p}_1^T \; | \; \vec{p}_2^T \; | \; \vec{p}_3^T \; | \; \vec{p}_4^T \rs
+  = \ls \begin{array}{rrrr}
+    1/6 &   0 & 0 & 0 \\
+    1/2 & 1/2 & 0 & 0 \\
+      1 &   1 & 1 & 0 \\
+      1 &   1 & 1 & 1
+  \end{array} \rs .
+\]
+Clearly, the reduced row-echelon form of $A$ is $I_4$. Since $I_4$ has no free-variables, and thus no nullspace, the columns of $A$ are linearly independent and we can satisfy (a) that $S$ \textbf{is} linearly independent.
+
+The long way to go about showing (b) is to construct a new fixed but arbitrary polynomial $p(x) = ax^3 + bx^2 + cx + d$ and set
+\[
+  p(x) = \sum_{k=1}^4 c_k p_k(x).
+\]
+Then we could solve for $c_1, c_2, c_3, c_4$ in terms of $a,b,c,d$. However! there is a much easier way to show that (b) is satisfied using the vector representation above. Since $A$ is full rank (i.e.: has $4$ pivots and is equal to $I_4$ in RREF), we know that $A^{-1}$ exists. Thus let the vector representation of $p(x)$ be $\vec{p} = [a,b,c,d]$ and we have that $S$ spans $P_3$ if $A \vec{c} = \vec{p}$ has a solution. Since $A^{-1}$ exists, then indeed we just set $\vec{c} = A^{-1} \vec{p}$ and we are done. Finally, \textbf{$S$ is a basis for $P_3$}.
+\end{proof} \fi
+
+
+
+
+
+
+\end{document}

@@ -1,0 +1,102 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#7}
+\date{Friday, March 6, 2015}
+\maketitle
+
+
+\begin{prob} Solve the following system using Cramer's rule
+\[
+  \ls \begin{array}{rrr}
+     3 & 3 & 2 \\
+     1 & 3 & 2 \\
+    -1 & 2 & 0
+  \end{array} \rs
+  \ls \begin{array}{r}
+    x_1 \\ x_2 \\ x_3
+  \end{array}\rs
+   = \ls \begin{array}{r}
+    4 \\ 6 \\ 4
+   \end{array}\rs
+\]
+\end{prob} \ifsolns \begin{proof}
+Recall Cramer's rule, i.e.: that $\vec{x}$ has components
+\[
+  x_i = \frac{det(A_i)}{det(A)}
+\]
+where $A_i$ is the $A$ matrix with the $i^{\text{th}}$ column replaced by $\vec{b}$. For us this means (expanding up from the bottom right entry each time)
+\begin{align*}
+  det(A_1) & = \left| \begin{array}{rrr}
+     4 & 3 & 2 \\
+     6 & 3 & 2 \\
+     4 & 2 & 0
+  \end{array} \right| \\
+   & = 8, \\
+   det(A_2) & = \left| \begin{array}{rrr}
+     3 & 4 & 2 \\
+     1 & 6 & 2 \\
+    -1 & 4 & 0
+  \end{array} \right| \\
+   & = -12, \\
+   det(A_3) & = \left| \begin{array}{rrr}
+     3 & 3 & 4 \\
+     1 & 3 & 6 \\
+    -1 & 2 & 4
+  \end{array} \right| \\
+   & = -10 .
+\end{align*}
+We also have that
+\begin{align*}
+  det(A) & = \left| \begin{array}{rrr}
+     3 & 3 & 2 \\
+     1 & 3 & 2 \\
+    -1 & 2 & 0
+  \end{array} \right| \\
+   & = 0 \cdot \left| \begin{array}{rr} 3&3 \\ 1&3 \end{array} \right|
+     - 2 \cdot \left| \begin{array}{rr} 3&3 \\-1&2 \end{array} \right|
+     + 2 \cdot \left| \begin{array}{rr} 1&3 \\-1&2 \end{array} \right| \\
+   & = -8.
+\end{align*}
+Thus, altogether,
+\[
+  \vec{x} = \ls \begin{array}{r} -1 \\ 3/2 \\ 5/4 \end{array} \rs 
+\]
+\end{proof}\else \newpage \fi
+
+
+
+\begin{prob}
+Let $\vec{u} = \ls 1,2,3 \rs$ and $\vec{v} = \ls 3,4,6 \rs$.
+\begin{enumerate}[label=(\alph*)]
+\item What is $|\vec{u}|$?
+\item What is $|\vec{v}|$?
+\item What is the distance between the points associated with $\vec{u}$ and $\vec{v}$?
+\item Consider a matrix $A$ such that $A^TA = 2 I$. What is the distance between $\vec{x} = A \vec{u}$ and $\vec{y} = A \vec{v}$?
+\end{enumerate}
+\end{prob} \ifsolns \begin{proof} \mbox{}
+\begin{enumerate}[label=(\alph*)]
+\item $|\vec{u}| = \sqrt{14}$?
+\item $|\vec{v}| = \sqrt{61}$?
+\item Simply find the length of the vector $\vec{w} = \vec{v} - \vec{u} = \ls 2, 2, 3 \rs$. The distance is $|\vec{w}| = \sqrt{17}$.
+\item Note that there are a few ways to calculate distance,
+\begin{align*}
+  | \vec{x} - \vec{y} |
+  & = | A\vec{u} - A \vec{v} | \\
+  & = | A \lp \vec{u} - \vec{v} \rp | \\
+  & = \sqrt{\lp A \lp \vec{u} - \vec{v} \rp \rp^T \lp A \lp \vec{u} - \vec{v} \rp\rp} \\
+  & = \sqrt{\lp \vec{u} - \vec{v} \rp^T A^T A \lp \vec{u} - \vec{v}\rp} \\
+  & = \sqrt{\lp \vec{u} - \vec{v} \rp^T 2I\lp \vec{u} - \vec{v}\rp} \\
+  & = \sqrt{2}\sqrt{\lp \vec{u} - \vec{v} \rp^T \lp \vec{u} - \vec{v}\rp} \\
+  & = \sqrt{2}| \vec{u} - \vec{v} | \\
+  & = \sqrt{34} .
+\end{align*}
+\end{enumerate}
+\end{proof} \fi
+\end{document}

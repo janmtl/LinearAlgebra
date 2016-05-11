@@ -1,0 +1,375 @@
+\documentclass{tutorial}
+\usepackage{tikz, tkz-berge, multirow}
+\usetikzlibrary{arrows,%
+                petri,%
+                topaths}%
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#14}
+\date{Friday, May 1, 2015}
+\maketitle
+
+\begin{prob}[Symmetric matrices and orthogonal diagonalization]
+Diagonalize the following symmetric matrix
+\[
+  A = \ls \begin{array}{rrrr}
+     3/2 & -1/2 &    0 &    0 \\
+    -1/2 &  3/2 &    0 &    0 \\
+       0 &    0 &  1/2 &  3/2 \\
+       0 &    0 &  3/2 &  1/2
+  \end{array} \rs .
+\]
+\end{prob} \ifsolns \begin{proof}
+We begin with the characteristic equation
+\[
+  det \lp A - \lambda I_4 \rp = 0 .
+\]
+We can use the following property for determinants of block-diagonal matrices (like the one above)
+\[
+  det \lp \ls \begin{array}{cccc}
+    A & & & \\
+    & B & & \\
+    & & \ddots & \\
+    & & & Z
+  \end{array} \rs \rp = det \lp A \rp det \lp B \rp \dots det \lp Z \rp
+\]
+where $A$, $B$, $\dots$ $Z$ are square matrices of any size. In our case:
+\begin{align*}
+  0 &= det \lp A - \lambda I_4 \rp \\
+  0 &= det \lp \ls \begin{array}{rr} 3/2-\lambda & -1/2 \\ -1/2 & 3/2-\lambda \end{array} \rs \rp
+       det \lp \ls \begin{array}{rr} 1/2-\lambda & 3/2 \\ 3/2 & 1/2-\lambda \end{array} \rs \rp \\
+  0 &= \lp \lp \frac{3}{2}-\lambda \rp^2 - \frac{1}{4} \rp \lp \lp \frac{1}{2}-\lambda \rp^2 - \frac{9}{4} \rp \\
+  0 &= \lp 2 - 3 \lambda + \lambda^2 \rp \lp -2 - \lambda + \lambda^2 \rp \\
+  0 &= \lp 2 - \lambda \rp \lp 1 - \lambda \rp \lp -2 + \lambda \rp \lp 1 + \lambda \rp
+\end{align*}
+and $\lambda = 2,1,2,-1$. Let's now find the eigenvectors, first for $\lambda = -1$, find the one vector in the nullspace of the matrix $A - (-1)I_4$, or
+\begin{align*}
+  \vec{v}_{-1}
+  & \in \text{null} \lp \ls \begin{array}{rrrr}
+     5/2 & -1/2 &    0 &    0 \\
+    -1/2 &  5/2 &    0 &    0 \\
+       0 &    0 &  3/2 &  3/2 \\
+       0 &    0 &  3/2 &  3/2  
+  \end{array} \rs \rp \\
+  & = \text{null} \lp \ls \begin{array}{rrrr}
+       0 &   12 &    0 &    0 \\
+    -1/2 &  5/2 &    0 &    0 \\
+       0 &    0 &    1 &    1 \\
+       0 &    0 &    0 &    0  
+  \end{array} \rs \rp \\
+  & = \text{null} \lp \ls \begin{array}{rrrr}
+       0 &    1 &    0 &    0 \\
+       1 &   -5 &    0 &    0 \\
+       0 &    0 &    1 &    1 \\
+       0 &    0 &    0 &    0  
+  \end{array} \rs \rp \\
+  & = \text{null} \lp \ls \begin{array}{rrrr}
+       1 &    0 &    0 &    0 \\
+       0 &    1 &    0 &    0 \\
+       0 &    0 &    1 &    1 \\
+       0 &    0 &    0 &    0  
+  \end{array} \rs \rp
+\end{align*}
+where in each line we've use some row operations to reduce the matrix. Thus, $\vec{v}_{-1} = \ls 0, 0, 1/\sqrt{2}, -1/\sqrt{2} \rs$ (recall we must use the normalized vector). For the eigenvalue $\lambda = 1$ we find $\vec{v}_1 = \ls 1/\sqrt{2}, 1/\sqrt{2}, 0, 0 \rs$. Now, for eigenvalue $\lambda = 2$ we see something a little different,
+\begin{align*}
+  \vec{v}_{2}
+  & \in \text{null} \lp \ls \begin{array}{rrrr}
+    -1/2 & -1/2 &    0 &    0 \\
+    -1/2 & -1/2 &    0 &    0 \\
+       0 &    0 & -3/2 &  3/2 \\
+       0 &    0 &  3/2 & -3/2
+  \end{array} \rs \rp \\
+  & = \text{null} \lp \ls \begin{array}{rrrr}
+       1 &    1 &    0 &    0 \\
+       0 &    0 &    0 &    0 \\
+       0 &    0 &    1 &   -1 \\
+       0 &    0 &    0 &    0
+  \end{array} \rs \rp
+\end{align*}
+with two free variables, this nullspace is a two-dimensional space! Thus, we must choose two eigenvectors, the obvious choices are
+\begin{align*}
+  \vec{v}_2^{(1)} &= \ls 1/\sqrt{2}, -1/\sqrt{2}, 0, 0 \rs , \\
+  \vec{v}_2^{(2)} &= \ls 0, 0, 1/\sqrt{2}, 1/\sqrt{2} \rs
+\end{align*}
+although any two vectors forming an orthonormal basis for the nullspace of $A-2I_4$ would have worked. Now, pairing together the eigenvalues and their eigenvectors in the correct order we can write
+\begin{align*}
+  A & =
+    \ls \begin{array}{c|c|c|c} \vec{v}_{-1} & \vec{v}_1 & \vec{v}_2^{(1)} & \vec{v}_2^{(2)} \end{array} \rs
+    \ls \begin{array}{rrrr}
+      -1 &  0 &  0 &  0 \\
+       0 &  1 &  0 &  0 \\
+       0 &  0 &  2 &  0 \\
+       0 &  0 &  0 &  2
+    \end{array} \rs
+    \ls \begin{array}{c|c|c|c} \vec{v}_{-1} & \vec{v}_1 & \vec{v}_2^{(1)} & \vec{v}_2^{(2)} \end{array} \rs^T \\
+  A & = \ls \begin{array}{rrrr}
+       0 & 1/\sqrt{2} & 1/\sqrt{2} &  0 \\
+       0 & 1/\sqrt{2} & -1/\sqrt{2} &  0 \\
+       1/\sqrt{2} & 0 & 0 & 1/\sqrt{2} \\
+       -1/\sqrt{2} & 0 & 0 & 1/\sqrt{2}
+    \end{array} \rs
+    \ls \begin{array}{rrrr}
+      -1 &  0 &  0 &  0 \\
+       0 &  1 &  0 &  0 \\
+       0 &  0 &  2 &  0 \\
+       0 &  0 &  0 &  2
+    \end{array} \rs
+    \ls \begin{array}{rrrr}
+       0 & 0 & 1/\sqrt{2} & -1/\sqrt{2} \\
+       1/\sqrt{2} & 1/\sqrt{2} & 0 & 0 \\
+       1/\sqrt{2} &-1/\sqrt{2} & 0 & 0 \\
+       0 & 0 & 1/\sqrt{2} & 1/\sqrt{2}
+    \end{array} \rs .
+\end{align*}
+\end{proof}\else \newpage \fi
+
+
+
+\begin{prob}[Orthogonal complements and projections into a subspace]
+Project the vector $\vec{v} = [1,1,1,1]$ onto the orthogonal complement of the nullspace of the matrix
+\[
+    A = \ls \begin{array}{rrrr}
+      1 &  0 &  1 &  1 \\
+      1 &  2 &  3 &  3 \\
+     -1 & -2 & -5 & -5
+    \end{array} \rs .
+\]
+\end{prob} \ifsolns \begin{proof}
+We can go about solving this in two ways. We could (A) find a basis for the nullspace, use that to find a basis for the orthogonal complement, then project onto it or (B) notice that the \emph{rowspace} is orthogonal to the nullspace and simply project onto that. We can find an orthonormal basis for the rowspace by using row operations on $A$, for example
+\begin{align*}
+  A & \sim \ls \begin{array}{rrrr}
+      1 &  0 &  1 &  1 \\
+      1 &  2 &  3 &  3 \\
+      0 &  0 &  0 &  0
+    \end{array} \rs \\
+    & \sim \ls \begin{array}{rrrr}
+      1 &  0 &  1 &  1 \\
+      0 &  2 &  2 &  2 \\
+      0 &  0 &  0 &  0
+    \end{array} \rs \\
+    & \sim \ls \begin{array}{rrrr}
+      1 &  0 &  1 &  1 \\
+      0 &  1 &  1 &  1 \\
+      0 &  0 &  0 &  0
+    \end{array} \rs
+\end{align*}
+The rows of this matrix are still not, however, orthonormal. Consider using one step of the Gram-Schmidt process:
+\begin{align*}
+  \vec{v}_2
+  & = \vec{v}_2 - \text{proj}_{\vec{v}_1} \vec{v}_2 \\
+  & = \ls 0,1,1,1 \rs - \frac{2}{3} \ls 1,0,1,1\rs \\
+  & = \ls-2/3, 1, 1/3, 1/3 \rs.
+\end{align*}
+Now normalizing the two vectors
+\begin{align*}
+  \hat{v}_1 &= \ls 1/\sqrt{3}, 0 , 1/\sqrt{3}, 1/\sqrt{3} \rs \\
+  \hat{v}_2 &= \ls -2\sqrt{3}/3\sqrt{5}, \sqrt{3/5}, 1/\sqrt{15}, 1/\sqrt{15} \rs
+\end{align*}
+The projection of $\vec{v}$ onto the orthogonal complement of the nullspace of $A$ can now be written as
+\[
+  \text{proj}_{\text{null}(A)^{\perp}} \vec{v} = \lp \vec{v} \cdot \hat{v}_1 \rp \hat{v}_1 + \lp \vec{v} \cdot \hat{v}_2 \rp \hat{v}_2
+\]
+which turns out to be
+\begin{align*}
+  \text{proj}_{\text{null}(A)^{\perp}} \vec{v} = \sqrt{3} \hat{v}_1
+\end{align*}
+\end{proof}\else \newpage \fi
+
+
+
+\begin{prob}[Least squares]
+Find the parabola that is the least squares fit of the following four points $(-1,-1)$, $(0,-4)$, $(1,-4)$, $(2,-4)$.
+\end{prob} \ifsolns \begin{proof}
+Our model for the parabola will $y = ax^2 + bx + c$. This way, we can write a linear relationship between our parameters ($a$, $b$, and $c$) for every data point. The four points make $4$ equations
+\[
+  \lb \begin{array}{rcl}
+    -1 & = & a(-1)^2 + b(-1) + c(1) \\
+    -4 & = & a(0)^2 + b(0) + c(1) \\
+    -4 & = & a(1)^2 + b(1) + c(1) \\
+    -4 & = & a(2)^2 + b(2) + c(1)
+  \end{array} \right.
+\]
+We can write this as a linear system
+\[
+  Y = X\vec{p}
+  \hspace{0.25in} \text{where} \hspace{0.25in}
+  Y = \ls \begin{array}{r} -1 \\ -4 \\ -4 \\ -4 \end{array} \rs
+  \hspace{0.15in} \text{and} \hspace{0.15in}
+  X = \ls \begin{array}{rrr}
+     1 & -1 &  1 \\
+     0 &  0 &  1 \\
+     1 &  1 &  1 \\
+     4 &  2 &  1
+  \end{array} \rs
+  \hspace{0.15in} \text{and} \hspace{0.15in}
+  \vec{p} = \ls \begin{array}{r} a \\ b \\ c \end{array} \rs .
+\]
+Of course, $Y=X\vec{p}$ has no solution (since our model does not fit our data exactly). However, the associated \emph{normal equations} do. These are
+\[
+  X^T Y = X^TX\vec{p}
+  \hspace{0.5in} \text{or} \hspace{0.5in}
+  \ls \begin{array}{r}
+    -21 \\ -11 \\ -13
+  \end{array} \rs
+  = \ls \begin{array}{rrr}
+    18 & 8 & 6 \\
+    8 & 6 & 2 \\
+    6 & 2 & 4
+  \end{array} \rs \ls \begin{array}{r} a \\ b \\ c \end{array} \rs
+\]
+which has the solution $a = 0.75$, $b = -1.65$, $c = -3.55$.
+\end{proof}\else \newpage \fi
+
+
+
+\begin{prob}[Gram-Schmidt orthogonalization]
+Use the Gram-Schmidt method to construct an orthonormal basis for $\mbR^4$ starting with the following basis
+\[
+  S = \lb
+    \ls \begin{array}{r} 1 \\ -1 \\  0 \\  0 \end{array} \rs,
+    \ls \begin{array}{r} 0 \\  1 \\  2 \\  0 \end{array} \rs,
+    \ls \begin{array}{r} 0 \\  0 \\  1 \\ -1 \end{array} \rs,
+    \ls \begin{array}{r} 2 \\  0 \\  0 \\  1 \end{array} \rs,
+  \rb
+\]
+\end{prob} \ifsolns \begin{proof}
+Let us label the vectors in $S$ as $\vec{v}_1, \vec{v}_2, \vec{v}_3, \vec{v}_4$. We now follow the Gram-Schmidt to produce the orthonormal vectors $\hat{u}_i$ starting with $\vec{v}_1$,
+\begin{align*}
+  \hat{u}_1   &= \frac{\vec{v}_1}{|\vec{v}_1|} \\
+              &= \ls 1/\sqrt{2}, -1/\sqrt{2}, 0, 0 \rs \\
+\end{align*}
+\begin{align*}
+  \vec{u}_2   &= \vec{v}_2 - \lp \hat{u}_1 \cdot \vec{v}_2 \rp \hat{u}_1 \\
+              &= \ls 0, 1, 2, 0 \rs - \lp -1/\sqrt{2} \rp \ls 1/\sqrt{2}, -1/\sqrt{2}, 0, 0 \rs \\
+              &= \ls 0, 1, 2, 0 \rs + \ls 1/2, -1/2, 0, 0 \rs \\
+              &= \ls 1/2, 1/2, 2, 0 \rs \\
+  \hat{u}_2   &= \ls 1/3\sqrt{2}, 1/3\sqrt{2}, 2\sqrt{2}/3, 0 \rs
+\end{align*}
+\begin{align*}
+  \vec{u}_3   &= \vec{v}_3 - \lp \hat{u}_1 \cdot \vec{v}_3 \rp \hat{u}_1 - \lp \hat{u}_2 \cdot \vec{v}_3 \rp \hat{u}_2 \\
+              &= \ls 0, 0, 1,-1 \rs - \sqrt{8/9} \ls 1/\sqrt{18}, 1/\sqrt{18}, \sqrt{8/9}, 0 \rs \\
+              &= \ls 0, 0, 1,-1 \rs - \ls 2/9, 2/9, 8/9, 0 \rs \\
+              &= \ls -2/9, -2/9, 1/9, -1 \rs \\
+  \hat{u}_3   &= \sqrt{3/10} \ls -2/9, -2/9, 1/9, -1 \rs
+\end{align*}
+\begin{align*}
+  \vec{u}_4   &= \vec{v}_4
+                 - \lp \hat{u}_1 \cdot \vec{v}_4 \rp \hat{u}_1
+                 - \lp \hat{u}_2 \cdot \vec{v}_4 \rp \hat{u}_2
+                 - \lp \hat{u}_3 \cdot \vec{v}_4 \rp \hat{u}_3 \\
+              &= \ls 2,0,0,1 \rs
+                 - \sqrt{2}   \ls 1/\sqrt{2}, -1/\sqrt{2}, 0, 0 \rs
+                 - \sqrt{2}/3 \ls 1/3\sqrt{2}, 1/3\sqrt{2}, 2\sqrt{2}/3, 0 \rs
+                 - (-13/30)   \ls -2/9, -2/9, 1/9, -1 \rs \\
+              &= \ls 2,0,0,1 \rs
+                 - \ls 1, -1, 0, 0 \rs
+                 - \ls 1/9, 1/9, 4/9, 0 \rs
+                 - \ls 26/270, 26/270, 1/270, 13/30 \rs \\
+              &= \ls 107/135, 107/135, -121/270, 17/30 \rs \\
+  \hat{u}_4   &= \sqrt{1543/2744} \ls 107/135, 107/135, -121/270, 17/30 \rs
+\end{align*}
+\end{proof}\else \vspace{3in} \fi
+
+
+
+\begin{prob}[Eigenvalues and matrix exponentials]
+We can define the matrix exponential $e^A$ via the Taylor series
+\[
+  e^A = \sum_{k=0}^{\infty} \frac{1}{k!} A^k
+\]
+where $A^k = A \dots A$ ($k$-times) and $k! = k (k-1) \dots 1$. We also assume that $A^0 = I_n$. Using diagonalization of symmetric matrices, find $e^A$ of
+\[
+  A = \ls \begin{array}{rrr}
+    -1 &  2 &  0 \\
+     2 &  1 &  0 \\
+     0 &  0 & -1
+  \end{array} \rs
+\]
+\end{prob} \ifsolns \begin{proof}
+First, let $P$ be an orthonormal matrix and $D$ be a diagonal matrix such that $A=PDP^T$ (i.e., $A$ is diagonalized). Then we can write the matrix exponential above as
+\begin{align*}
+  e^A
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} A^k \\
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} \lp PDP^T \rp^k \\
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} \lp PDP^T \rp \lp PDP^T \rp \dots \lp PDP^T \rp \\
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} PDP^TPDP \dots PDP^T \\
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} PDI_nDI_n \dots I_nDP^T \\
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} PD^kP^T \\
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} P \ls \begin{array}{rrr}
+    \lambda_1 & \dots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \dots & \lambda_n
+  \end{array}\rs^k P^T \\
+  &= \sum_{k=0}^{\infty} \frac{1}{k!} P \ls \begin{array}{rrr}
+    \lambda_1^k & \dots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \dots & \lambda_n^k
+  \end{array}\rs P^T \\
+  &= P \ls \begin{array}{rrr}
+    \sum_{k=0}^{\infty} \frac{1}{k!} \lambda_1^k & \dots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \dots & \sum_{k=0}^{\infty} \frac{1}{k!} \lambda_n^k
+  \end{array}\rs P^T \\
+  &= P \ls \begin{array}{rrr}
+    e^{\lambda_1} & \dots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \dots & e^{\lambda_n}
+  \end{array}\rs P^T.
+\end{align*}
+Thus, we can take the matrix exponent by simply exponentiating the eigenvalues in the diagonalized form. In our specific example we can use that
+\[
+  \ls \begin{array}{rrr}
+    -1 &  2 &  0 \\
+     2 &  1 &  0 \\
+     0 &  0 & -1
+  \end{array} \rs
+   = \ls \begin{array}{rrr}
+    -0.8507 & 0.5257 &  0 \\
+     0.5257 & .8507 &  0 \\
+     0 &  0 & 1
+  \end{array} \rs \ls \begin{array}{rrr}
+    -2.2361 &  0 &  0 \\
+     0 & 2.2361 &  0 \\
+     0 &  0 & -1
+  \end{array} \rs \ls \begin{array}{rrr}
+    -0.8507 & 0.5257 &  0 \\
+     0.5257 & .8507 &  0 \\
+     0 &  0 & 1
+  \end{array} \rs
+\]
+Thus $e^A$ is given by taking the exponent of the each eigenvalue in the diagonal matrix
+\begin{align*}
+  e^A
+  & = \ls \begin{array}{rrr}
+    -0.8507 & 0.5257 &  0 \\
+     0.5257 & .8507 &  0 \\
+     0 &  0 & 1
+  \end{array} \rs \ls \begin{array}{rrr}
+    0.1069 &  0 &  0 \\
+     0 & 9.3565 &  0 \\
+     0 &  0 & 0.3679
+  \end{array} \rs \ls \begin{array}{rrr}
+    -0.8507 & 0.5257 &  0 \\
+     0.5257 & .8507 &  0 \\
+     0 &  0 & 1
+  \end{array} \rs \\
+  &= \ls \begin{array}{rrr}
+    2.6634  &  4.1365  &       0 \\
+    4.1365  &  6.7999  &       0 \\
+         0  &       0  &  0.3679
+  \end{array} \rs .
+\end{align*}
+\end{proof}\else \newpage \fi
+
+\end{document}
+
+
+
+
+
+
+
+
+[2,0,0,1]-[1, -1, 0, 0]-[1/9, 1/9, 4/9, 0]-[26/270, 26/270, 1/270, 13/30]
+
+
+
+

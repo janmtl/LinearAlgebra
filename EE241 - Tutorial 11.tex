@@ -1,0 +1,177 @@
+\documentclass{tutorial}
+\begin{document}
+\newif\ifsolns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+% UNCOMMENT BELOW TO TURN ON SOLNS %
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%\solnstrue
+
+\title{EE241 Spring 2015: Tutorial \#11}
+\date{Friday, April 10, 2015}
+\maketitle
+
+\begin{prob}[Complementary basis]
+Find a set $S$ of vectors in $\mbR^4$ such that $W = \spa{S}$ is a $3$-dimensional subspace of $\mbR^4$ that does not include the vector $\vec{v}_0 = \ls 1,1,1,1 \rs$. Then, find a basis for the vector space of all vectors orthogonal to $\vec{v}_0$
+\end{prob} \ifsolns \begin{proof}
+For the first part, we can simply choose
+\begin{align*}
+  S
+  & = \lb \vec{u}_1, \vec{u}_2, \vec{u}_3 \rb \\
+  & = \lb \ls 1,0,0,0 \rs \; , \; \ls 0,1,0,0 \rs \; , \; \ls 0,0,1,0 \rs \rb .
+\end{align*}
+Note that $W \subset \mbR^4$ but $\vec{v}_0 \nin W$, which can be seen by just checking the last component. However, $W$ clearly contains vectors that are non orthogonal to $\vec{v}_0$. For example, none of the $\vec{u}_i$ even have inner-product $0$ with it. One way to make the new set $S'$ such that $W' \perp \spa{\vec{v}_0}$ is to simply subtract from each $\vec{u}_i$ the projection of $\vec{v}_0$, i.e.:
+\[
+  \vec{u}_i' = \vec{u}_i - \frac{\vec{u}_i \cdot \vec{v}_0}{| \vec{u}_i || \vec{v}_0 |} \frac{\vec{v}_0}{|\vec{v}_0|}
+\]
+Or
+\begin{align*}
+  \vec{u}_1'
+  & = \ls 1,0,0,0 \rs - \frac{1}{4} \ls 1,1,1,1 \rs \\
+  & = \ls \frac{3}{4}, -\frac{1}{4}, -\frac{1}{4}, -\frac{1}{4} \rs \\
+  \vec{u}_2'
+  & = \ls -\frac{1}{4}, \frac{3}{4}, -\frac{1}{4}, -\frac{1}{4} \rs \\
+  \vec{u}_3'
+  & = \ls -\frac{1}{4}, -\frac{1}{4}, \frac{3}{4}, -\frac{1}{4} \rs \\
+\end{align*}
+Finally, to show that for any $\vec{w} \in W'$ we have that $\vec{w} \cdot \vec{v}_0 = 0$, we can simply write $\vec{w}$ as a linear combination of the new basis $S'$,
+\begin{align*}
+  \vec{w} \cdot \vec{v}_0
+  & = \lp w_1 \vec{u}_1' + w_2 \vec{u}_2' + w_3 \vec{u}_3' \rp \cdot \vec{v}_0 \\
+  & = w_1 \vec{u}_1'\cdot \vec{v}_0 + w_2 \vec{u}_2'\cdot \vec{v}_0 + w_3 \vec{u}_3' \cdot \vec{v}_0 \\
+  & = 0+0+0 \\
+  & = 0 .
+\end{align*}
+\end{proof}\else \vspace{3in} \fi
+
+
+
+\begin{prob}[Change of basis]
+Write the vector $\vec{v} = \ls 1,-2,1 \rs$ in the basis $S = \lb \ls 1,1,0 \rs, \ls 1,0,1 \rs, \ls 0,1,1 \rs \rb$
+\end{prob} \ifsolns \begin{proof}
+To write the vector $\vec{v}$ in the new basis $S$, we must solve for coefficients $v_1, v_2, v_3$ in the equation
+\[
+    v_1 \ls \begin{array}{r} 1 \\ 1 \\ 0 \end{array} \rs
+  + v_2 \ls \begin{array}{r} 1 \\ 0 \\ 1 \end{array} \rs
+  + v_3 \ls \begin{array}{r} 0 \\ 1 \\ 1 \end{array} \rs
+  =     \ls \begin{array}{r} 1 \\-2 \\ 1 \end{array} \rs
+\]
+Equivalently, we can solve
+\[
+  \ls \begin{array}{rrr}
+    1 & 1 & 0 \\
+    1 & 0 & 1 \\
+    0 & 1 & 1
+  \end{array} \rs
+    v_1 \\ v_2 \\ v_3
+  \ls \begin{array}{r}
+  \end{array} \rs
+  = \ls \begin{array}{r}
+    1 \\ -2 \\ 1
+  \end{array} \rs .
+\]
+From MATLAB (or a simple application of Gauss-Jordan) we find that
+\[
+  A^{-1} = \frac{1}{2} \ls \begin{array}{rrr}
+    1 & 1 &-1 \\
+    1 &-1 & 1 \\
+   -1 & 1 & 1
+  \end{array} \rs
+\]
+Thus $\ls \vec{v} \rs_S = A^{-1} \vec{v} = \ls -1,2,-1\rs$.
+\end{proof}\else \newpage \fi
+
+
+
+\begin{prob}[Checking linear independence with functions]
+Is the set $\lb 2,4 \sin^2(x),\cos^2(x) \rb$ linearly dependent or independent?
+\end{prob} \ifsolns \begin{proof}
+To check for linear independence, we attempt to solve the following equation for non-zero $c_1$, $c_2$, $c_3$,
+\[
+  c_1 \cdot 2 + c_2 \cdot 4\sin^2(x) + c_3 \cdot \cos^2(x) = 0 \hspace{0.15in} \forall x \in \mbR .
+\]
+Recall that $\cos^2(x) = 1 -\sin^2(x)$, so
+\begin{align*}
+  c_1 \cdot 2 + c_2 \cdot 4\sin^2(x) + c_3 \cdot \lp 1-\sin^2(x) \rp & = 0 & \forall x \in \mbR \\
+  \lp 2c_1 + c_3 \rp \cdot 1 + \lp 4c_2 - c_3 \rp \cdot \sin^2(x) & = 0 & \forall x \in \mbR
+\end{align*}
+Thus, if we set $c_1 = -2$, $c_2 = 1$, and $c_3 = 4$ we see that the set of functions is indeed linearly dependent. 
+\end{proof}\else \vspace{3in} \fi
+
+
+
+
+\begin{prob}[Matrix bases]
+Find a basis for $2 \times 2$ symmetric matrices where each element in the set has determinant $1$ or $-1$. Then, write the the following matrix as a linear combination of the elments of this basis
+\[
+  \ls \begin{array}{cc}
+    1 & 2 \\
+    2 & 0 
+  \end{array} \rs
+\]
+\end{prob} \ifsolns \begin{proof}
+First, let's write out the conditions for a $2 \times 2$ matrix to have determinant $\pm 1$. Consider
+\[
+  A = \ls \begin{array}{cc}
+    a & b \\
+    c & d
+  \end{array} \rs
+\]
+then we must have that $ad-bc = \pm 1$. Furthermore, since we are dealing with symmetric matrices, we also need that $b=c$ so really we have that $ad-b^2 = \pm 1$. Our strategy for choosing basis elements should be to keep as many of the terms $0$ as possible. For example, if we choose $a$ to be $0$ then we must have that $b^2 = \mp 1$ which means that $b=1$. Our first element can be
+\[
+  M_1 = \ls \begin{array}{cc}
+    0 & 1 \\
+    1 & 0
+  \end{array} \rs .
+\]
+Now we can try the case where $a=1$ and we are guaranteed to generate a matrix that is linearly independent from the one above. If $a=1$ then $d-b^2 = \pm 1$. Following our strategy, we can set $b=0$ this time and let $d=\pm 1$. Thus we have two new matrices
+\[
+  M_2 = \ls \begin{array}{cc}
+    1 & 0 \\
+    0 & 1
+  \end{array} \rs
+  \hspace{0.25in} \text{and} \hspace{0.25in}
+  M_3 = \ls \begin{array}{cc}
+    1 & 0 \\
+    0 &-1
+  \end{array} \rs .
+\]
+Finally, we need to check that this set does indeed span the vector space of $2 \times 2$ symmetric matrices. To do so, consider an arbitrary symetric matrix
+\[
+  A = \ls \begin{array}{cc}
+    a & b \\
+    b & d
+  \end{array} \rs .
+\]
+Can we find coefficients $m_i$ such that $m_1M_1 + m_2M_2 + m_3M_3 = A$ for any choice of $a$, $b$, and $c$? If we can write $m_1$, $m_2$, $m_3$ in terms of $a$, $b$, and $c$, then we can answer this positively. Consider
+\[
+  m_1M_1 + m_2M_2 + m_3M_3 = \ls \begin{array}{cc}
+    m_2 + m_3 & m_1 \\
+    m_1 & m_2 - m_3
+  \end{array} \rs
+  \hspace{0.15in} \Longrightarrow
+  \lb \begin{array}{l}
+    m_2 + m_3 = a \\
+    m_1 = b \\
+    m_2 - m_3 = c \\
+  \end{array} \right.
+\]
+Thus $m_1 = b$, $m_2 = (a+c)/2$, and $m_3 = (a-c)/2$ and our set spans the vector space of $2 \times 2$ symmetric matrices. The matrix in the question can be written with $m_1 = 2$, $m_2 = 1$, and $m_3 = 1$.
+\end{proof}\else \vspace{3in} \fi
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
